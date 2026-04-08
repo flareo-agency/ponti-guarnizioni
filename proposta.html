@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FLAREO® | Proposta Commerciale - Ponti Guarnizioni</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: #0A0A0A;
+            color: #FFFFFF;
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            letter-spacing: -0.3px;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            letter-spacing: -1px;
+        }
+
+        a {
+            color: #E8430A;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: #FF6B00;
+        }
+
+        /* ============ HEADER ============ */
+        header {
+            padding: 60px 40px;
+            text-align: center;
+            border-bottom: 1px solid rgba(232, 67, 10, 0.2);
+            margin-bottom: 80px;
+            animation: fadeIn 0.8s ease;
+        }
+
+        .logo-text {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            margin-bottom: 10px;
+            letter-spacing: -2px;
+        }
+
+        .logo-accent {
+            color: #E8430A;
+        }
+
+        .header-subtitle {
+            font-size: clamp(1rem, 2vw, 1.25rem);
+            color: #AAAAAA;
+            margin-bottom: 30px;
+            font-weight: 500;
+        }
+
+        .header-meta {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+            padding-top: 40px;
+            border-top: 1px solid rgba(232, 67, 10, 0.1);
+        }
+
+        .meta-item {
+            text-align: left;
+        }
+
+        .meta-label {
+            font-size: 0.85rem;
+            color: #E8430A;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+        }
+
+        .meta-value {
+            font-size: 1rem;
+            color: #FFFFFF;
+        }
+
+        /* ============ MAIN CONTENT ============ */
+        main {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 40px;
+        }
+
+        section {
+            margin-bottom: 120px;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease forwards;
+        }
+
+        section:nth-child(1) { animation-delay: 0.2s; }
+        section:nth-child(2) { animation-delay: 0.4s; }
+        section:nth-child(3) { animation-delay: 0.6s; }
+        section:nth-child(4) { animation-delay: 0.8s; }
+        section:nth-child(5) { animation-delay: 1s; }
+        section:nth-child(6) { animation-delay: 1.2s; }
+        section:nth-child(7) { animation-delay: 1.4s; }
+
+        section h2 {
+            font-size: clamp(2rem, 4vw, 3rem);
+            margin-bottom: 40px;
+            position: relative;
+            padding-bottom: 20px;
+        }
+
+        section h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(90deg, #E8430A 0%, rgba(232, 67, 10, 0) 100%);
+        }
+
+        section p {
+            font-size: 1.05rem;
+            margin-bottom: 20px;
+            line-height: 1.8;
+            color: #CCCCCC;
+        }
+
+        .intro-text {
+            font-size: 1.2rem;
+            line-height: 1.9;
+            margin-bottom: 30px;
+        }
+
+        /* ============ PROBLEM LIST ============ */
+        .problem-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin: 50px 0;
+        }
+
+        .problem-card {
+            background: rgba(232, 67, 10, 0.05);
+            border: 1px solid rgba(232, 67, 10, 0.2);
+            padding: 30px;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .problem-card:hover {
+            background: rgba(232, 67, 10, 0.1);
+            border-color: #E8430A;
+            transform: translateY(-5px);
+        }
+
+        .problem-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #E8430A;
+            margin-bottom: 15px;
+        }
+
+        .problem-card h3 {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+        }
+
+        .problem-card p {
+            font-size: 0.95rem;
+            color: #AAAAAA;
+        }
+
+        /* ============ PROPOSAL DELIVERABLES ============ */
+        .deliverables {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 40px;
+            margin: 60px 0;
+        }
+
+        .deliverable {
+            padding: 40px;
+            border-left: 4px solid #E8430A;
+            background: rgba(232, 67, 10, 0.03);
+        }
+
+        .deliverable h3 {
+            font-size: 1.4rem;
+            margin-bottom: 25px;
+            color: #E8430A;
+        }
+
+        .deliverable ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .deliverable li {
+            padding-left: 25px;
+            margin-bottom: 15px;
+            position: relative;
+            font-size: 0.95rem;
+        }
+
+        .deliverable li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: #E8430A;
+            font-weight: bold;
+        }
+
+        /* ============ TIMELINE ============ */
+        .timeline {
+            margin: 60px 0;
+        }
+
+        .timeline-item {
+            display: grid;
+            grid-template-columns: 150px 1fr;
+            gap: 40px;
+            margin-bottom: 40px;
+            padding-bottom: 40px;
+            border-bottom: 1px solid rgba(232, 67, 10, 0.1);
+        }
+
+        .timeline-item:last-child {
+            border-bottom: none;
+        }
+
+        .timeline-phase {
+            font-weight: 600;
+            color: #E8430A;
+            font-size: 0.95rem;
+        }
+
+        .timeline-content h3 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+
+        .timeline-duration {
+            color: #888888;
+            font-size: 0.9rem;
+        }
+
+        /* ============ INVESTMENT ============ */
+        .investment-box {
+            background: rgba(232, 67, 10, 0.08);
+            border: 2px solid #E8430A;
+            padding: 40px;
+            margin: 40px 0;
+            text-align: center;
+            border-radius: 4px;
+        }
+
+        .investment-box h3 {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+        }
+
+        .investment-amount {
+            font-size: clamp(2rem, 3vw, 3rem);
+            color: #E8430A;
+            font-weight: 700;
+            margin-bottom: 10px;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        .investment-details {
+            color: #AAAAAA;
+            font-size: 0.95rem;
+        }
+
+        /* ============ WHY FLAREO ============ */
+        .why-flareo {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 30px;
+        }
+
+        .why-item {
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(232, 67, 10, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .why-item:hover {
+            background: rgba(232, 67, 10, 0.05);
+            border-color: #E8430A;
+        }
+
+        .why-item h3 {
+            font-size: 1.05rem;
+            margin-bottom: 15px;
+            color: #E8430A;
+        }
+
+        .why-item p {
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+
+        /* ============ PROTOTYPE SECTION ============ */
+        .prototype-box {
+            background: rgba(232, 67, 10, 0.1);
+            border: 2px solid #E8430A;
+            padding: 50px 40px;
+            text-align: center;
+            border-radius: 4px;
+            margin: 50px 0;
+        }
+
+        .prototype-box h3 {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            color: #E8430A;
+        }
+
+        .prototype-box p {
+            margin-bottom: 30px;
+            color: #CCCCCC;
+        }
+
+        .prototype-link {
+            display: inline-block;
+            padding: 15px 40px;
+            background: #E8430A;
+            color: #0A0A0A;
+            font-weight: 600;
+            font-size: 1rem;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .prototype-link:hover {
+            background: #FF6B00;
+            transform: scale(1.05);
+        }
+
+        /* ============ FOOTER ============ */
+        footer {
+            border-top: 1px solid rgba(232, 67, 10, 0.2);
+            padding: 60px 40px;
+            margin-top: 100px;
+            text-align: center;
+            background: rgba(232, 67, 10, 0.03);
+        }
+
+        .footer-content {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .footer-logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        .footer-contact {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin: 40px 0;
+            padding: 40px 0;
+            border-top: 1px solid rgba(232, 67, 10, 0.1);
+            border-bottom: 1px solid rgba(232, 67, 10, 0.1);
+        }
+
+        .contact-item {
+            text-align: left;
+        }
+
+        .contact-label {
+            color: #E8430A;
+            font-weight: 600;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .contact-value {
+            color: #CCCCCC;
+        }
+
+        .footer-disclaimer {
+            margin-top: 40px;
+            font-size: 0.85rem;
+            color: #888888;
+        }
+
+        /* ============ ANIMATIONS ============ */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ============ PRINT STYLES ============ */
+        @media print {
+            body {
+                background-color: #FFFFFF;
+                color: #000000;
+            }
+
+            header, section, footer {
+                page-break-inside: avoid;
+            }
+
+            a {
+                color: #0A0A0A;
+            }
+
+            .problem-card, .deliverable, .why-item {
+                border: 1px solid #CCCCCC;
+                background: #FAFAFA;
+            }
+
+            .prototype-link {
+                border: 2px solid #0A0A0A;
+            }
+        }
+
+        /* ============ RESPONSIVE ============ */
+        @media (max-width: 768px) {
+            main {
+                padding: 0 20px;
+            }
+
+            header {
+                padding: 40px 20px;
+            }
+
+            section h2 {
+                font-size: 2rem;
+            }
+
+            .header-meta {
+                grid-template-columns: 1fr;
+            }
+
+            .deliverables {
+                grid-template-columns: 1fr;
+            }
+
+            .timeline-item {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header>
+        <div class="logo-text">
+            FLAREO<span class="logo-accent">®</span>
+        </div>
+        <div class="header-subtitle">Proposta Commerciale</div>
+
+        <div class="header-meta">
+            <div class="meta-item">
+                <div class="meta-label">Data</div>
+                <div class="meta-value">Aprile 2026</div>
+            </div>
+            <div class="meta-item">
+                <div class="meta-label">Client</div>
+                <div class="meta-value">Ponti Guarnizioni Srl</div>
+            </div>
+            <div class="meta-item">
+                <div class="meta-label">Responsabile</div>
+                <div class="meta-value">Sig. Ponti Renato</div>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main>
+
+        <!-- INTRODUZIONE -->
+        <section>
+            <h2>Introduzione</h2>
+            <p class="intro-text">
+                Caro Sig. Ponti Renato,
+            </p>
+            <p>
+                Abbiamo analizzato in dettaglio la vostra attuale presenza digitale e il sito web di Ponti Guarnizioni. La vostra azienda vanta 40+ anni di eccellenza nel settore delle guarnizioni e dei sigilli in gomma, con una reputazione solida nel mercato europeo e una certificazione ISO 9001:2015. Tuttavia, la vostra immagine digitale non riflette pienamente il livello di qualità e la professionalità della vostra organizzazione.
+            </p>
+            <p>
+                In questa proposta presentiamo una strategia completa di rebranding e sviluppo web che posizionerà Ponti Guarnizioni come leader premium nel settore, con un'identità visiva moderna e un sito web funzionale che incrementerà le conversioni e rafforzerà la vostra posizione competitiva.
+            </p>
+        </section>
+
+        <!-- ANALISI DEL SITO ATTUALE -->
+        <section>
+            <h2>Analisi del Sito Attuale</h2>
+            <p>
+                Durante la nostra valutazione, abbiamo identificato i seguenti punti critici che limitano l'efficacia della vostra comunicazione digitale:
+            </p>
+
+            <div class="problem-grid">
+                <div class="problem-card">
+                    <div class="problem-number">1</div>
+                    <h3>Layout Incoerente</h3>
+                    <p>Grandi spazi bianchi vuoti nel layout con apparenti problemi CSS che compromettono l'esperienza utente.</p>
+                </div>
+
+                <div class="problem-card">
+                    <div class="problem-number">2</div>
+                    <h3>Identità Visiva Debole</h3>
+                    <p>Tavolozza cromatica generica (arancio #E8A200) e logo datato non riflettono la modernità industriale.</p>
+                </div>
+
+                <div class="problem-card">
+                    <div class="problem-number">3</div>
+                    <h3>Gerarchia Informativa Assente</h3>
+                    <p>Pagina aziendale con testi lunghi senza highlights, statistiche o elementi visivi che guidino il lettore.</p>
+                </div>
+
+                <div class="problem-card">
+                    <div class="problem-number">4</div>
+                    <h3>Fotografie Prive di Contesto</h3>
+                    <p>Prodotti belli ma isolati su sfondo bianco, senza storytelling o applicazioni pratiche.</p>
+                </div>
+
+                <div class="problem-card">
+                    <div class="problem-number">5</div>
+                    <h3>Nessuna Social Proof</h3>
+                    <p>Mancano case study, loghi clienti, certificazioni visive e testimonianze che costruiscono fiducia.</p>
+                </div>
+
+                <div class="problem-card">
+                    <div class="problem-number">6</div>
+                    <h3>Funzionalità Obsolete</h3>
+                    <p>Mappe Google rotte, form basilari, nessun tool interattivo (selettore materiali), footer assente.</p>
+                </div>
+
+                <div class="problem-card">
+                    <div class="problem-number">7</div>
+                    <h3>Nessuna Strategia CTA</h3>
+                    <p>Button sparse e generiche ("Scopri di più") senza gerarchia o spinta verso conversioni mirate.</p>
+                </div>
+
+                <div class="problem-card">
+                    <div class="problem-number">8</div>
+                    <h3>Responsive Design Carente</h3>
+                    <p>Template Bootstrap di base senza ottimizzazione mobile, nessun testing apparente.</p>
+                </div>
+
+                <div class="problem-card">
+                    <div class="problem-number">9</div>
+                    <h3>Nessuna Multilingua Efficace</h3>
+                    <p>Supporto lingua limitato, nessuna localizzazione SEO per mercati EN/DE/FR.</p>
+                </div>
+
+                <div class="problem-card">
+                    <div class="problem-number">10</div>
+                    <h3>User Experience Basilare</h3>
+                    <p>Cookie banner invasivo, navigazione sticky senza identità, nessuna animazione o micro-interazioni.</p>
+                </div>
+            </div>
+
+            <p style="margin-top: 40px; color: #E8430A; font-weight: 600;">
+                Conclusione: il vostro sito non comunica il valore della vostra azienda. Occorre una trasformazione digitale completa.
+            </p>
+        </section>
+
+        <!-- LA NOSTRA PROPOSTA -->
+        <section>
+            <h2>La Nostra Proposta</h2>
+            <p>
+                Proponiamo un progetto integrato che copre due pilastri fondamentali: il rebranding completo della vostra azienda e la realizzazione di un nuovo sito web strategico e performante.
+            </p>
+
+            <div class="deliverables">
+                <div class="deliverable">
+                    <h3>A. Rebrand Completo</h3>
+                    <ul>
+                        <li>Nuovo logo mark + wordmark moderno</li>
+                        <li>Tavolozza cromatica premium (navy, arancio elettrico, grigio acciaio)</li>
+                        <li>Sistema tipografico strutturato</li>
+                        <li>Guida brand completa (BrandBook PDF)</li>
+                        <li>Biglietti da visita e carta intestata</li>
+                        <li>Linee guida per material aziendali</li>
+                        <li>Implementazione cross-channel</li>
+                    </ul>
+                </div>
+
+                <div class="deliverable">
+                    <h3>B. Nuovo Sito Web</h3>
+                    <ul>
+                        <li>Architettura single/multi-page responsiva</li>
+                        <li>Catalogo prodotti con filtri avanzati</li>
+                        <li>Timeline heritage aziendale interattiva</li>
+                        <li>Tool selettore materiali/compound</li>
+                        <li>Sistema richiesta preventivi integrato</li>
+                        <li>Multilingua (IT/EN/DE/FR)</li>
+                        <li>SEO optimization (Meta, Sitemap, Schema)</li>
+                        <li>Pagespeed & Accessibility (WCAG AA)</li>
+                        <li>Analytics & conversion tracking</li>
+                        <li>Hosting & SSL incluso (1 anno)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <p style="margin-top: 50px;">
+                Entrambi i deliverable sono progettati seguendo best practice del design moderno e includono prototipazione funzionale, test utente e iterazioni basate su feedback.
+            </p>
+        </section>
+
+        <!-- IL PROTOTIPO -->
+        <section>
+            <h2>Il Prototipo</h2>
+            <p>
+                Per dimostrarvi la concretezza della nostra visione, abbiamo già preparato un <strong>prototipo funzionante</strong> del vostro nuovo sito web. Potrete esplorare l'interfaccia, la navigazione, il sistema di filtri prodotto e il layout responsivo.
+            </p>
+
+            <div class="prototype-box">
+                <h3>Visualizza il Prototipo Interattivo</h3>
+                <p>
+                    Scoprite come il vostro marchio e i vostri prodotti possono brillare con una comunicazione digitale di qualità premium.
+                </p>
+                <a href="ponti-prototype.html" class="prototype-link">Accedi al Prototipo →</a>
+            </div>
+
+            <p style="margin-top: 40px;">
+                Il prototipo mostra un'anteprima della home page, della sezione prodotti, della timeline aziendale e della pagina contatti. Tutti gli elementi sono stati sviluppati seguendo i principi della UX strategica e della visual design contemporanea.
+            </p>
+        </section>
+
+        <!-- TIMELINE & FASI -->
+        <section>
+            <h2>Timeline di Progetto</h2>
+            <p>
+                Il progetto sarà articolato in 4 fasi principali, per un totale di circa 13 settimane. Di seguito il dettaglio:
+            </p>
+
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-phase">FASE 1</div>
+                    <div class="timeline-content">
+                        <h3>Research & Brand Strategy</h3>
+                        <p>Analisi approfondita del vostro mercato, competitor, audience e value proposition. Workshop interno con i vostri stakeholder. Definizione della brand architecture e positioning.</p>
+                        <div class="timeline-duration">⏱ 2 settimane</div>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-phase">FASE 2</div>
+                    <div class="timeline-content">
+                        <h3>Brand Identity Design</h3>
+                        <p>Creazione del logo, tavolozza cromatica, tipografia. Sviluppo del BrandBook. Mockup di applicazioni primarie (biglietti, carta, email signature).</p>
+                        <div class="timeline-duration">⏱ 3 settimane</div>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-phase">FASE 3</div>
+                    <div class="timeline-content">
+                        <h3>Web Design & Development</h3>
+                        <p>Wireframing e design mockup. Sviluppo frontend/backend. Implementazione CMS. Integrazione tool e API (mappe, form, analytics). Test cross-browser.</p>
+                        <div class="timeline-duration">⏱ 6 settimane</div>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-phase">FASE 4</div>
+                    <div class="timeline-content">
+                        <h3>Testing, QA & Lancio</h3>
+                        <p>Test funzionali, UX testing, performance optimization. Review finale con client. Training staff. Lancio in produzione e monitoraggio post-lancio.</p>
+                        <div class="timeline-duration">⏱ 2 settimane</div>
+                    </div>
+                </div>
+            </div>
+
+            <p style="margin-top: 40px; font-weight: 600; color: #E8430A;">
+                Totale: 13 settimane | Inizio stimato: Maggio 2026 | Lancio stimato: Agosto 2026
+            </p>
+        </section>
+
+        <!-- INVESTIMENTO -->
+        <section>
+            <h2>Investimento</h2>
+
+            <div class="investment-box">
+                <h3>Pacchetto Completo: Rebranding + Sito Web</h3>
+                <div class="investment-amount">€8.000 - €12.000</div>
+                <div class="investment-details">
+                    Importo indicativo in base alle specifiche finali e alle iterazioni di revisione.<br>
+                    Include tutte le fasi, i deliverable, l'hosting (1 anno) e il supporto post-lancio (30 giorni).
+                </div>
+            </div>
+
+            <p style="margin-top: 50px;">
+                <strong>Breakdown sommario:</strong>
+            </p>
+            <ul style="margin: 20px 0; padding-left: 20px;">
+                <li>Brand Strategy & Identity Design: €3.500 - €5.000</li>
+                <li>Web Design & Development: €4.000 - €6.500</li>
+                <li>Testing, Deployment & Training: €500 - €1.500</li>
+            </ul>
+
+            <p style="margin-top: 30px; font-size: 0.95rem; color: #AAAAAA;">
+                Metodi di pagamento: bonifico bancario. Scadenza termini: pagamento in 3 rate (50% alla firma, 30% al completamento design, 20% al lancio).
+            </p>
+        </section>
+
+        <!-- PERCHÉ FLAREO -->
+        <section>
+            <h2>Perché FLAREO®</h2>
+
+            <div class="why-flareo">
+                <div class="why-item">
+                    <h3>Design-First Approach</h3>
+                    <p>
+                        Ogni progetto inizia da una solida strategia di design e una comprensione profonda del vostro brand e audience.
+                    </p>
+                </div>
+
+                <div class="why-item">
+                    <h3>Risultati Misurabili</h3>
+                    <p>
+                        I nostri progetti non sono esercizi estetici: ottimizziamo per conversioni, engagement e ROI.
+                    </p>
+                </div>
+
+                <div class="why-item">
+                    <h3>Prototyping Incluso</h3>
+                    <p>
+                        Non vendiamo promesse: mostriamo prototipie funzionanti prima della firma del contratto.
+                    </p>
+                </div>
+
+                <div class="why-item">
+                    <h3>Coinvolgimento Fondatore</h3>
+                    <p>
+                        Il vostro progetto sarà seguito direttamente da chi conosce il mestiere: niente junior, tutto senior.
+                    </p>
+                </div>
+
+                <div class="why-item">
+                    <h3>Supporto Post-Lancio</h3>
+                    <p>
+                        30 giorni di supporto completo dopo il lancio. Ci assicuriamo che il sito funzioni perfettamente.
+                    </p>
+                </div>
+
+                <div class="why-item">
+                    <h3>Partnership Strategica</h3>
+                    <p>
+                        Vogliamo essere il vostro partner digitale a lungo termine, non solo un fornitore one-shot.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- PROSSIMI PASSI -->
+        <section>
+            <h2>Prossimi Passi</h2>
+            <p>
+                Se questa proposta vi interessa, vi invitiamo a:
+            </p>
+            <ul style="margin: 20px 0; padding-left: 20px;">
+                <li><strong>1. Contattarci</strong> per una call di allineamento (30 min) per chiarire dettagli e rispondere a domande</li>
+                <li><strong>2. Firmare</strong> il contratto di engagement e un NDA (riservatezza mutua)</li>
+                <li><strong>3. Avviare</strong> la Fase 1 (Research) nella settimana successiva</li>
+            </ul>
+            <p style="margin-top: 30px;">
+                Rimaniamo a vostra disposizione per discussioni, modifiche alla proposta o richieste di chiarimenti.
+            </p>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">
+                FLAREO<span style="color: #E8430A;">®</span>
+            </div>
+            <p style="color: #AAAAAA; margin-bottom: 20px;">Creative Web Design & Branding Agency</p>
+
+            <div class="footer-contact">
+                <div class="contact-item">
+                    <div class="contact-label">Email</div>
+                    <div class="contact-value"><a href="mailto:hello@flareo.design">hello@flareo.design</a></div>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-label">Telefono</div>
+                    <div class="contact-value"><a href="tel:+393471234567">+39 347 123 4567</a></div>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-label">Web</div>
+                    <div class="contact-value"><a href="https://flareo.design">flareo.design</a></div>
+                </div>
+            </div>
+
+            <div class="footer-disclaimer">
+                <p>
+                    Questo documento è informazioni confidenziale e proprietaria di FLAREO®.<br>
+                    Uso limitato ai destinatari designati. Distribuzione non autorizzata proibita.
+                </p>
+                <p style="margin-top: 15px;">© 2026 FLAREO® | Tutti i diritti riservati</p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

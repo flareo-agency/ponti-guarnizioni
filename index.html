@@ -1,0 +1,4262 @@
+<!DOCTYPE html>
+<html lang="it" data-theme="dark">
+<head>
+    <script>
+        // Prevent flash of wrong theme
+        (function(){var t=localStorage.getItem('ponti-theme');if(t)document.documentElement.setAttribute('data-theme',t);})();
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ponti Guarnizioni | Articoli Tecnici in Gomma dal 1980</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <style>
+        /* ============================================
+           DESIGN TOKENS — Dark Industrial Premium
+           ============================================ */
+        :root {
+            /* Brand Colors */
+            --color-orange: #FF9919;
+            --color-orange-light: #FFB347;
+            --color-orange-dark: #E07800;
+            --color-orange-glow: rgba(255, 153, 25, 0.25);
+            --color-orange-subtle: rgba(255, 153, 25, 0.08);
+
+            /* Dark Palette */
+            --color-bg-primary: #0D0B09;
+            --color-bg-secondary: #141210;
+            --color-bg-tertiary: #1A1816;
+            --color-bg-card: #1E1C1A;
+            --color-bg-card-hover: #252320;
+            --color-bg-elevated: #2A2826;
+
+            /* Text */
+            --color-text-primary: #F5F0EB;
+            --color-text-secondary: #A09890;
+            --color-text-tertiary: #706860;
+            --color-text-inverse: #0D0B09;
+
+            /* Metallic */
+            --color-metallic: #C8C0B8;
+            --color-metallic-dark: #8A8278;
+            --color-border: rgba(255, 255, 255, 0.06);
+            --color-border-hover: rgba(255, 153, 25, 0.3);
+
+            /* Typography */
+            --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+
+            /* Easing — Emil Kowalski principles */
+            --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+            --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+            --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+            /* Timing */
+            --t-fast: 150ms;
+            --t-base: 220ms;
+            --t-slow: 350ms;
+            --t-enter: 500ms;
+            --t-exit: 200ms;
+
+            /* Spacing */
+            --space-xs: 0.25rem;
+            --space-sm: 0.5rem;
+            --space-md: 1rem;
+            --space-lg: 1.5rem;
+            --space-xl: 2rem;
+            --space-2xl: 3rem;
+            --space-3xl: 4rem;
+            --space-4xl: 6rem;
+            --space-5xl: 8rem;
+
+            /* 3D */
+            --perspective: 1200px;
+            --rotate-subtle: 2deg;
+            --rotate-card: 15deg;
+
+            /* Radius */
+            --radius-sm: 6px;
+            --radius-md: 12px;
+            --radius-lg: 20px;
+            --radius-xl: 28px;
+
+            /* Shadows — lightweight */
+            --shadow-card: 0 2px 8px rgba(0,0,0,0.3);
+            --shadow-card-hover: 0 6px 20px rgba(0,0,0,0.4);
+            --shadow-glow: 0 0 20px var(--color-orange-glow);
+            --shadow-glow-strong: 0 0 30px rgba(255, 153, 25, 0.25);
+        }
+
+        /* ============================================
+           LIGHT MODE
+           ============================================ */
+        [data-theme="light"] {
+            --color-bg-primary: #FFFFFF;
+            --color-bg-secondary: #F7F7F8;
+            --color-bg-tertiary: #EFEFEF;
+            --color-bg-card: #FFFFFF;
+            --color-bg-card-hover: #F9F9FA;
+            --color-bg-elevated: #FFFFFF;
+
+            --color-text-primary: #111111;
+            --color-text-secondary: #555555;
+            --color-text-tertiary: #888888;
+            --color-text-inverse: #FFFFFF;
+
+            --color-metallic: #5A5450;
+            --color-metallic-dark: #3A3430;
+            --color-border: rgba(0, 0, 0, 0.08);
+            --color-border-hover: rgba(255, 153, 25, 0.4);
+
+            --shadow-card: 0 1px 6px rgba(0,0,0,0.05);
+            --shadow-card-hover: 0 4px 16px rgba(0,0,0,0.08);
+            --shadow-glow: 0 0 15px rgba(255, 153, 25, 0.12);
+            --shadow-glow-strong: 0 0 25px rgba(255, 153, 25, 0.18);
+        }
+
+        /* ============================================
+           RESET & BASE
+           ============================================ */
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background: var(--color-bg-primary);
+            color: var(--color-text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* ============================================
+           UTILITY
+           ============================================ */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--space-xl);
+        }
+
+        .section-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--color-orange);
+            margin-bottom: var(--space-md);
+        }
+
+        .section-title {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 800;
+            line-height: 1.1;
+            letter-spacing: -0.03em;
+            color: var(--color-text-primary);
+        }
+
+        .section-subtitle {
+            font-size: 1.125rem;
+            color: var(--color-text-secondary);
+            max-width: 560px;
+            line-height: 1.7;
+        }
+
+        /* Reveal animations — GSAP handles via fromTo */
+        .reveal {
+            opacity: 0;
+        }
+
+        /* Text split animation — GSAP sets initial transforms */
+        .split-char {
+            display: inline-block;
+            opacity: 0;
+        }
+        .split-word {
+            display: inline-block;
+            overflow: hidden;
+            vertical-align: top;
+            padding-bottom: 0.1em;
+        }
+
+        /* Hero title animation prep */
+        .hero-title .line {
+            display: block;
+            overflow: hidden;
+        }
+        .hero-title .line-inner {
+            display: block;
+            transform: translateY(110%);
+        }
+
+        /* ============================================
+           NAVIGATION
+           ============================================ */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            padding: var(--space-lg) 0;
+            transition: background-color var(--t-base) var(--ease-out),
+                        padding var(--t-base) var(--ease-out);
+            will-change: transform;
+            backface-visibility: hidden;
+        }
+
+        .nav.scrolled {
+            background: rgba(13, 11, 9, 0.95);
+            padding: var(--space-sm) 0;
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .nav-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .nav-logo {
+            height: 40px;
+            transition: opacity var(--t-fast) var(--ease-out);
+        }
+
+        .nav-logo:hover { opacity: 0.8; }
+
+        .nav-links {
+            display: flex;
+            gap: var(--space-xl);
+            list-style: none;
+        }
+
+        .nav-links a {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--color-text-secondary);
+            transition: color var(--t-fast) var(--ease-out);
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--color-orange);
+            border-radius: 1px;
+            transition: width var(--t-base) var(--ease-out);
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--color-text-primary);
+        }
+
+        .nav-links a:hover::after,
+        .nav-links a.active::after {
+            width: 100%;
+        }
+
+        .nav-cta {
+            font-size: 0.875rem;
+            font-weight: 600;
+            padding: 0.6rem 1.4rem;
+            background: var(--color-orange);
+            color: var(--color-text-inverse);
+            border-radius: var(--radius-sm);
+            border: none;
+            cursor: pointer;
+            transition: transform var(--t-fast) var(--ease-out),
+                        background-color var(--t-base) var(--ease-out),
+                        box-shadow var(--t-base) var(--ease-out);
+        }
+
+        .nav-cta:hover {
+            background: var(--color-orange-light);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .nav-cta:active {
+            transform: scale(0.97);
+        }
+
+        /* Mobile nav */
+        .nav-hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: var(--space-sm);
+        }
+
+        .nav-hamburger span {
+            width: 24px;
+            height: 2px;
+            background: var(--color-text-primary);
+            border-radius: 2px;
+            transition: transform var(--t-base) var(--ease-out),
+                        opacity var(--t-fast) var(--ease-out);
+        }
+
+        .nav-hamburger.open span:nth-child(1) {
+            transform: translateY(7px) rotate(45deg);
+        }
+        .nav-hamburger.open span:nth-child(2) {
+            opacity: 0;
+        }
+        .nav-hamburger.open span:nth-child(3) {
+            transform: translateY(-7px) rotate(-45deg);
+        }
+
+        .nav-mobile {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(13, 11, 9, 0.98);
+            z-index: 99;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: var(--space-xl);
+        }
+
+        .nav-mobile.open {
+            display: flex;
+        }
+
+        .nav-mobile a {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--color-text-secondary);
+            transition: color var(--t-fast) var(--ease-out);
+        }
+
+        .nav-mobile a:hover {
+            color: var(--color-orange);
+        }
+
+        /* ============================================
+           HERO
+           ============================================ */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            perspective: var(--perspective);
+        }
+
+        /* Grain overlay removed for performance */
+
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+        }
+
+        .hero-bg img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.12;
+        }
+
+        /* Gradient overlays */
+        .hero-bg::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, rgba(13,11,9,0.3) 0%, rgba(13,11,9,0.8) 70%, var(--color-bg-primary) 100%);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 780px;
+            padding-top: var(--space-5xl);
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-sm);
+            padding: 0.4rem 1rem;
+            background: var(--color-orange-subtle);
+            border: 1px solid rgba(255, 153, 25, 0.15);
+            border-radius: 100px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--color-orange);
+            margin-bottom: var(--space-xl);
+        }
+
+        .hero-badge-dot {
+            width: 6px;
+            height: 6px;
+            background: var(--color-orange);
+            border-radius: 50%;
+            animation: pulse-dot 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse-dot {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+
+        .hero-title {
+            font-size: clamp(2.8rem, 7vw, 5.5rem);
+            font-weight: 900;
+            line-height: 1.0;
+            letter-spacing: -0.04em;
+            margin-bottom: var(--space-xl);
+        }
+
+        .hero-title .accent {
+            background: linear-gradient(135deg, var(--color-orange) 0%, var(--color-orange-light) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-description {
+            font-size: 1.2rem;
+            color: var(--color-text-secondary);
+            max-width: 540px;
+            line-height: 1.7;
+            margin-bottom: var(--space-2xl);
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: var(--space-md);
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-sm);
+            padding: 0.9rem 2rem;
+            background: var(--color-orange);
+            color: var(--color-text-inverse);
+            font-size: 0.95rem;
+            font-weight: 600;
+            font-family: var(--font-body);
+            border-radius: var(--radius-sm);
+            border: none;
+            cursor: pointer;
+            transition: transform var(--t-fast) var(--ease-out),
+                        background-color var(--t-base) var(--ease-out),
+                        box-shadow var(--t-base) var(--ease-out);
+        }
+
+        .btn-primary:hover {
+            background: var(--color-orange-light);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .btn-primary:active { transform: scale(0.97); }
+
+        .btn-secondary {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-sm);
+            padding: 0.9rem 2rem;
+            background: transparent;
+            color: var(--color-text-primary);
+            font-size: 0.95rem;
+            font-weight: 600;
+            font-family: var(--font-body);
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--color-border);
+            cursor: pointer;
+            transition: transform var(--t-fast) var(--ease-out),
+                        border-color var(--t-base) var(--ease-out),
+                        background-color var(--t-base) var(--ease-out);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--color-orange);
+            background: var(--color-orange-subtle);
+        }
+
+        .btn-secondary:active { transform: scale(0.97); }
+
+        .btn-icon {
+            transition: transform var(--t-base) var(--ease-out);
+        }
+
+        .btn-primary:hover .btn-icon,
+        .btn-secondary:hover .btn-icon {
+            transform: translateX(3px);
+        }
+
+        /* Hero stats bar */
+        .hero-stats {
+            display: flex;
+            gap: var(--space-3xl);
+            margin-top: var(--space-4xl);
+            padding-top: var(--space-2xl);
+            border-top: 1px solid var(--color-border);
+        }
+
+        .hero-stat-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            background: linear-gradient(135deg, var(--color-text-primary) 0%, var(--color-metallic) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-stat-label {
+            font-size: 0.8rem;
+            color: var(--color-text-tertiary);
+            font-weight: 500;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            margin-top: var(--space-xs);
+        }
+
+        /* Hero 3D canvas — handled by Three.js */
+
+        /* ============================================
+           LANGUAGE SWITCHER
+           ============================================ */
+        .nav-lang {
+            display: flex;
+            align-items: center;
+            gap: 2px;
+            margin-left: var(--space-md);
+        }
+
+        .nav-lang a {
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 0.25rem 0.45rem;
+            color: var(--color-text-tertiary);
+            border-radius: 4px;
+            transition: color var(--t-fast) var(--ease-out),
+                        background-color var(--t-fast) var(--ease-out);
+        }
+
+        .nav-lang a:hover, .nav-lang a.active-lang {
+            color: var(--color-orange);
+            background: var(--color-orange-subtle);
+        }
+
+        /* ============================================
+           GALLERY
+           ============================================ */
+        .gallery {
+            padding: var(--space-5xl) 0;
+            background: var(--color-bg-secondary);
+        }
+
+        .gallery-header {
+            margin-bottom: var(--space-3xl);
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: var(--space-sm);
+        }
+
+        .gallery-item {
+            aspect-ratio: 4/3;
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform var(--t-slow) var(--ease-out),
+                        opacity var(--t-slow) var(--ease-out);
+            opacity: 0.85;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.05);
+            opacity: 1;
+        }
+
+        /* Gallery hover gradient removed for performance */
+
+        .gallery-item.span-2 { grid-column: span 2; }
+
+        /* ============================================
+           MATERIALS TABLE
+           ============================================ */
+        .materials-table-wrap {
+            margin-top: var(--space-2xl);
+            overflow-x: auto;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--color-border);
+        }
+
+        .materials-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.8rem;
+        }
+
+        .materials-table th {
+            background: var(--color-bg-card);
+            color: var(--color-orange);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            font-size: 0.7rem;
+            padding: 0.75rem 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--color-border);
+            white-space: nowrap;
+        }
+
+        .materials-table td {
+            padding: 0.6rem 1rem;
+            border-bottom: 1px solid var(--color-border);
+            color: var(--color-text-secondary);
+            white-space: nowrap;
+        }
+
+        .materials-table tr:hover td {
+            background: var(--color-bg-card-hover);
+        }
+
+        .materials-table .mat-name {
+            font-weight: 600;
+            color: var(--color-text-primary);
+        }
+
+        .materials-table .mat-range {
+            color: var(--color-text-tertiary);
+            font-size: 0.75rem;
+        }
+
+        /* ============================================
+           CONTACT FORM
+           ============================================ */
+        .contact-section {
+            padding: var(--space-5xl) 0;
+            background: var(--color-bg-tertiary);
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-4xl);
+        }
+
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-md);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-md);
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-xs);
+        }
+
+        .form-group label {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--color-text-secondary);
+        }
+
+        .form-group label .required {
+            color: var(--color-orange);
+        }
+
+        .form-input {
+            padding: 0.75rem 1rem;
+            background: var(--color-bg-card);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-sm);
+            color: var(--color-text-primary);
+            font-family: var(--font-body);
+            font-size: 0.9rem;
+            transition: border-color var(--t-base) var(--ease-out),
+                        box-shadow var(--t-base) var(--ease-out);
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--color-orange);
+            box-shadow: 0 0 0 3px var(--color-orange-glow);
+        }
+
+        .form-input::placeholder {
+            color: var(--color-text-tertiary);
+        }
+
+        textarea.form-input {
+            min-height: 140px;
+            resize: vertical;
+        }
+
+        .contact-info-block {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-xl);
+        }
+
+        .contact-info-item {
+            display: flex;
+            gap: var(--space-md);
+        }
+
+        .contact-info-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: var(--radius-sm);
+            background: var(--color-orange-subtle);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            color: var(--color-orange);
+        }
+
+        .contact-info-text h4 {
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+
+        .contact-info-text p, .contact-info-text a {
+            font-size: 0.85rem;
+            color: var(--color-text-secondary);
+            line-height: 1.6;
+        }
+
+        .contact-info-text a:hover { color: var(--color-orange); }
+
+        /* Map */
+        .contact-map {
+            width: 100%;
+            height: 280px;
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            border: 1px solid var(--color-border);
+            margin-top: var(--space-md);
+            opacity: 0.7;
+            transition: opacity var(--t-base) var(--ease-out);
+        }
+
+        .contact-map:hover {
+            opacity: 1;
+        }
+
+        .contact-map iframe {
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        @media (max-width: 768px) {
+            .contact-grid { grid-template-columns: 1fr; }
+            .form-row { grid-template-columns: 1fr; }
+            .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+            .gallery-item.span-2 { grid-column: span 1; }
+        }
+
+        @media (max-width: 480px) {
+            .gallery-grid { grid-template-columns: 1fr 1fr; }
+            .nav-lang { display: none; }
+        }
+
+        /* ============================================
+           STATS TICKER
+           ============================================ */
+        .ticker {
+            padding: var(--space-3xl) 0;
+            background: var(--color-bg-secondary);
+            border-top: 1px solid var(--color-border);
+            border-bottom: 1px solid var(--color-border);
+            overflow: hidden;
+        }
+
+        .ticker-track {
+            display: flex;
+            gap: var(--space-4xl);
+            animation: ticker-scroll 30s linear infinite;
+            width: max-content;
+        }
+
+        .ticker-item {
+            display: flex;
+            align-items: center;
+            gap: var(--space-md);
+            white-space: nowrap;
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: var(--color-text-tertiary);
+        }
+
+        .ticker-item .sep {
+            width: 4px;
+            height: 4px;
+            background: var(--color-orange);
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        @keyframes ticker-scroll {
+            from { transform: translateX(0); }
+            to { transform: translateX(-50%); }
+        }
+
+        /* ============================================
+           ABOUT / CHI SIAMO
+           ============================================ */
+        .about {
+            padding: var(--space-5xl) 0;
+            position: relative;
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-4xl);
+            align-items: center;
+        }
+
+        .about-image-wrap {
+            position: relative;
+            perspective: var(--perspective);
+        }
+
+        .about-image {
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            transform: rotateY(-3deg) rotateX(2deg);
+            transition: transform var(--t-slow) var(--ease-out),
+                        box-shadow var(--t-slow) var(--ease-out);
+            box-shadow: var(--shadow-card);
+        }
+
+        .about-image-wrap:hover .about-image {
+            transform: rotateY(0deg) rotateX(0deg);
+            box-shadow: var(--shadow-card-hover);
+        }
+
+        .about-image img {
+            width: 100%;
+            aspect-ratio: 4/3;
+            object-fit: cover;
+        }
+
+        /* Glowing border accent */
+        .about-image::before {
+            content: '';
+            position: absolute;
+            inset: -1px;
+            border-radius: var(--radius-lg);
+            padding: 1px;
+            background: linear-gradient(135deg, rgba(255,153,25,0.3), transparent 50%);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+        }
+
+        .about-text h2 {
+            font-size: clamp(1.8rem, 4vw, 2.8rem);
+            font-weight: 800;
+            line-height: 1.1;
+            letter-spacing: -0.03em;
+            margin-bottom: var(--space-lg);
+        }
+
+        .about-text p {
+            color: var(--color-text-secondary);
+            margin-bottom: var(--space-md);
+            line-height: 1.8;
+        }
+
+        .about-features {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-md);
+            margin-top: var(--space-2xl);
+        }
+
+        .about-feature {
+            display: flex;
+            align-items: flex-start;
+            gap: var(--space-sm);
+        }
+
+        .about-feature-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: var(--radius-sm);
+            background: var(--color-orange-subtle);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            color: var(--color-orange);
+            font-size: 1rem;
+        }
+
+        .about-feature-text {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--color-text-secondary);
+            line-height: 1.5;
+        }
+
+        /* ============================================
+           PRODUCTS — 3D CARD GRID
+           ============================================ */
+        .products {
+            padding: var(--space-5xl) 0;
+            background: var(--color-bg-secondary);
+            position: relative;
+        }
+
+        .products-header {
+            text-align: center;
+            margin-bottom: var(--space-4xl);
+        }
+
+        .products-header .section-subtitle {
+            margin: var(--space-md) auto 0;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--space-xl);
+        }
+
+        /* 3D Product Card */
+        .product-card {
+            position: relative;
+            perspective: var(--perspective);
+            cursor: pointer;
+        }
+
+        .product-card-inner {
+            position: relative;
+            background: var(--color-bg-card);
+            border-radius: var(--radius-md);
+            border: 1px solid var(--color-border);
+            overflow: hidden;
+            transition: transform var(--t-slow) var(--ease-out),
+                        box-shadow var(--t-slow) var(--ease-out),
+                        border-color var(--t-base) var(--ease-out);
+            transform-style: preserve-3d;
+        }
+
+        .product-card:hover .product-card-inner {
+            transform: translateY(-8px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+            box-shadow: var(--shadow-card-hover), 0 0 30px var(--color-orange-glow);
+            border-color: var(--color-border-hover);
+        }
+
+        .product-card-image {
+            aspect-ratio: 16/11;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .product-card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform var(--t-slow) var(--ease-out);
+            opacity: 0.9;
+        }
+
+        .product-card:hover .product-card-image img {
+            transform: scale(1.04);
+            opacity: 1;
+        }
+
+        .product-card-body {
+            padding: var(--space-lg);
+        }
+
+        .product-card-title {
+            font-size: 1.05rem;
+            font-weight: 700;
+            margin-bottom: var(--space-xs);
+        }
+
+        .product-card-desc {
+            font-size: 0.82rem;
+            color: var(--color-text-tertiary);
+            line-height: 1.5;
+        }
+
+        .product-card-arrow {
+            position: absolute;
+            bottom: var(--space-lg);
+            right: var(--space-lg);
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--color-orange-subtle);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transform: translateX(-8px);
+            transition: opacity var(--t-base) var(--ease-out),
+                        transform var(--t-base) var(--ease-out);
+        }
+
+        .product-card:hover .product-card-arrow {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* Featured product — larger */
+        .product-card.featured {
+            grid-column: span 2;
+        }
+
+        .product-card.featured .product-card-image {
+            aspect-ratio: 2/1;
+        }
+
+        /* ============================================
+           SECTORS / SETTORI
+           ============================================ */
+        .sectors {
+            padding: var(--space-5xl) 0;
+        }
+
+        .sectors-header {
+            margin-bottom: var(--space-3xl);
+        }
+
+        .sectors-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: var(--space-md);
+        }
+
+        .sector-card {
+            background: var(--color-bg-card);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-md);
+            padding: var(--space-xl) var(--space-lg);
+            text-align: center;
+            transition: transform var(--t-base) var(--ease-out),
+                        border-color var(--t-base) var(--ease-out),
+                        background-color var(--t-base) var(--ease-out);
+            cursor: pointer;
+        }
+
+        .sector-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--color-border-hover);
+            background: var(--color-bg-card-hover);
+        }
+
+        .sector-card:active { transform: translateY(-4px) scale(0.98); }
+
+        .sector-icon {
+            width: 48px;
+            height: 48px;
+            margin: 0 auto var(--space-md);
+            border-radius: var(--radius-sm);
+            background: var(--color-orange-subtle);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+        }
+
+        .sector-card-title {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--color-text-secondary);
+        }
+
+        /* ============================================
+           MATERIALS / MATERIE PRIME
+           ============================================ */
+        .materials {
+            padding: var(--space-5xl) 0;
+            background: var(--color-bg-tertiary);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .materials::before {
+            content: '';
+            position: absolute;
+            top: -200px;
+            right: -200px;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(255,153,25,0.04) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .materials-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-4xl);
+            align-items: center;
+        }
+
+        .material-list {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-sm);
+        }
+
+        .material-item {
+            display: flex;
+            align-items: center;
+            gap: var(--space-md);
+            padding: var(--space-md) var(--space-lg);
+            background: var(--color-bg-card);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-sm);
+            transition: border-color var(--t-base) var(--ease-out),
+                        background-color var(--t-base) var(--ease-out);
+            cursor: pointer;
+        }
+
+        .material-item:hover {
+            border-color: var(--color-border-hover);
+            background: var(--color-bg-card-hover);
+        }
+
+        .material-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--color-orange);
+            flex-shrink: 0;
+        }
+
+        .material-name {
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .material-abbr {
+            font-size: 0.75rem;
+            color: var(--color-text-tertiary);
+            margin-left: auto;
+            font-weight: 500;
+        }
+
+        /* ============================================
+           CTA SECTION
+           ============================================ */
+        .cta {
+            padding: var(--space-5xl) 0;
+            text-align: center;
+            position: relative;
+        }
+
+        .cta-box {
+            background: linear-gradient(135deg, var(--color-bg-tertiary) 0%, var(--color-bg-card) 100%);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-xl);
+            padding: var(--space-4xl) var(--space-3xl);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 300px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--color-orange), transparent);
+        }
+
+        /* CTA glow removed for performance */
+
+        .cta h2 {
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            margin-bottom: var(--space-md);
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta p {
+            color: var(--color-text-secondary);
+            font-size: 1.1rem;
+            max-width: 500px;
+            margin: 0 auto var(--space-2xl);
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta .btn-primary {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ============================================
+           CERTIFICATIONS
+           ============================================ */
+        .certifications {
+            padding: var(--space-3xl) 0;
+            border-top: 1px solid var(--color-border);
+        }
+
+        .cert-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--space-3xl);
+        }
+
+        .cert-row img {
+            height: 50px;
+            opacity: 0.4;
+            transition: opacity var(--t-base) var(--ease-out);
+        }
+
+        .cert-row img:hover {
+            opacity: 0.8;
+        }
+
+        /* ============================================
+           FOOTER
+           ============================================ */
+        .footer {
+            padding: var(--space-4xl) 0 var(--space-2xl);
+            background: var(--color-bg-secondary);
+            border-top: 1px solid var(--color-border);
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: var(--space-3xl);
+            margin-bottom: var(--space-3xl);
+        }
+
+        .footer-brand p {
+            color: var(--color-text-tertiary);
+            font-size: 0.85rem;
+            margin-top: var(--space-md);
+            line-height: 1.7;
+            max-width: 300px;
+        }
+
+        .footer-col h4 {
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--color-text-tertiary);
+            margin-bottom: var(--space-lg);
+        }
+
+        .footer-col ul {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-sm);
+        }
+
+        .footer-col a {
+            font-size: 0.875rem;
+            color: var(--color-text-secondary);
+            transition: color var(--t-fast) var(--ease-out);
+        }
+
+        .footer-col a:hover {
+            color: var(--color-orange);
+        }
+
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: var(--space-2xl);
+            border-top: 1px solid var(--color-border);
+            font-size: 0.8rem;
+            color: var(--color-text-tertiary);
+        }
+
+        /* ============================================
+           RESPONSIVE
+           ============================================ */
+        @media (max-width: 1024px) {
+            .products-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .product-card.featured {
+                grid-column: span 2;
+            }
+            .sectors-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            .hero-3d-element {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links, .nav-cta { display: none; }
+            .nav-hamburger { display: flex; }
+
+            .hero-content { padding-top: var(--space-4xl); }
+            .hero-stats {
+                flex-direction: column;
+                gap: var(--space-xl);
+            }
+
+            .about-grid,
+            .materials-content {
+                grid-template-columns: 1fr;
+                gap: var(--space-2xl);
+            }
+
+            .about-features {
+                grid-template-columns: 1fr;
+            }
+
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+            .product-card.featured {
+                grid-column: span 1;
+            }
+
+            .sectors-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: var(--space-2xl);
+            }
+
+            .cta-box {
+                padding: var(--space-3xl) var(--space-xl);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 var(--space-md);
+            }
+
+            .hero-title {
+                font-size: 2.2rem;
+            }
+
+            .hero-actions {
+                flex-direction: column;
+            }
+
+            .sectors-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                gap: var(--space-sm);
+                text-align: center;
+            }
+        }
+
+        /* ============================================
+           LIGHT MODE OVERRIDES
+           ============================================ */
+        [data-theme="light"] .nav.scrolled {
+            background: rgba(255, 255, 255, 0.97);
+        }
+        [data-theme="light"] .nav-mobile {
+            background: rgba(255, 255, 255, 0.97);
+        }
+        [data-theme="light"] .hero::before {
+            background: linear-gradient(180deg, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0.9) 100%) !important;
+        }
+        [data-theme="light"] .particles-bg {
+            opacity: 0.06 !important;
+        }
+        [data-theme="light"] .hero-canvas {
+            opacity: 0.5;
+        }
+        [data-theme="light"] .hero-bg::after {
+            background: linear-gradient(180deg, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0.8) 70%, var(--color-bg-primary) 100%);
+        }
+        [data-theme="light"] .hero-bg img {
+            opacity: 0.15;
+        }
+        [data-theme="light"] .ticker {
+            background: var(--color-bg-secondary);
+        }
+        [data-theme="light"] .footer {
+            background: #1A1714;
+            color: #F5F0EB;
+        }
+        [data-theme="light"] .footer a { color: #F5F0EB; }
+        [data-theme="light"] .footer .section-label { color: var(--color-orange); }
+        [data-theme="light"] .nav-logo {
+            opacity: 0.8;
+        }
+
+        /* Theme toggle button */
+        .theme-toggle {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            background: transparent;
+            border: 1px solid var(--color-border);
+            border-radius: 50%;
+            cursor: pointer;
+            color: var(--color-text-secondary);
+            transition: color var(--t-fast) var(--ease-out),
+                        border-color var(--t-fast) var(--ease-out),
+                        background-color var(--t-fast) var(--ease-out);
+            flex-shrink: 0;
+        }
+        .theme-toggle:hover {
+            color: var(--color-orange);
+            border-color: var(--color-orange);
+            background: var(--color-orange-subtle);
+        }
+        .theme-toggle:active {
+            transform: scale(0.95);
+        }
+        .theme-toggle svg {
+            width: 18px;
+            height: 18px;
+            transition: transform var(--t-base) var(--ease-out);
+        }
+        .theme-toggle:hover svg {
+            transform: rotate(15deg);
+        }
+        .theme-toggle .icon-sun { display: none; }
+        .theme-toggle .icon-moon { display: block; }
+        [data-theme="light"] .theme-toggle .icon-sun { display: block; }
+        [data-theme="light"] .theme-toggle .icon-moon { display: none; }
+
+        /* Smooth theme transition — only key containers, not * */
+        .theme-transitioning body,
+        .theme-transitioning .nav,
+        .theme-transitioning .hero,
+        .theme-transitioning section,
+        .theme-transitioning .footer {
+            transition: background-color 0.3s ease, color 0.3s ease !important;
+        }
+
+        /* ============================================
+           FOCUS / ACCESSIBILITY
+           ============================================ */
+        :focus-visible {
+            outline: 2px solid var(--color-orange);
+            outline-offset: 3px;
+            border-radius: var(--radius-sm);
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+            .ticker-track { animation: none; }
+            .reveal, .split-char { opacity: 1 !important; transform: none !important; }
+            .hero-title .line-inner { transform: none !important; }
+            .product-card, .sector-card, .gallery-item, .material-item,
+            .contact-info-block, .cert-row img { opacity: 1 !important; transform: none !important; }
+        }
+
+        /* ============================================
+           THREE.JS 3D SECTIONS
+           ============================================ */
+        .hero-canvas {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .showcase-3d {
+            padding: var(--space-5xl) 0;
+            background: var(--color-bg-primary);
+            position: relative;
+        }
+
+        .showcase-3d-header {
+            text-align: center;
+            margin-bottom: var(--space-2xl);
+        }
+
+        .showcase-3d-header .section-subtitle {
+            margin: var(--space-md) auto 0;
+        }
+
+        .showcase-viewer {
+            position: relative;
+            width: 100%;
+            max-width: 1000px;
+            margin: 0 auto;
+            aspect-ratio: 16/9;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            background: var(--color-bg-secondary);
+            border: 1px solid var(--color-border);
+            box-shadow: var(--shadow-card);
+        }
+
+        .showcase-canvas {
+            width: 100%;
+            height: 100%;
+            display: block;
+            cursor: grab;
+        }
+
+        .showcase-canvas:active { cursor: grabbing; }
+
+        /* Product selector tabs */
+        .showcase-tabs {
+            display: flex;
+            justify-content: center;
+            gap: var(--space-sm);
+            margin-top: var(--space-xl);
+            flex-wrap: wrap;
+        }
+
+        .showcase-tab {
+            padding: 0.6rem 1.3rem;
+            background: var(--color-bg-card);
+            border: 1px solid var(--color-border);
+            border-radius: 100px;
+            font-family: var(--font-body);
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: var(--color-text-secondary);
+            cursor: pointer;
+            transition: border-color var(--t-base) var(--ease-out),
+                        color var(--t-base) var(--ease-out),
+                        background-color var(--t-base) var(--ease-out),
+                        box-shadow var(--t-base) var(--ease-out);
+        }
+
+        .showcase-tab:hover {
+            border-color: var(--color-border-hover);
+            color: var(--color-text-primary);
+        }
+
+        .showcase-tab:active { transform: scale(0.97); }
+
+        .showcase-tab.active {
+            background: var(--color-orange);
+            border-color: var(--color-orange);
+            color: var(--color-text-inverse);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .showcase-info {
+            text-align: center;
+            margin-top: var(--space-xl);
+        }
+
+        .showcase-info h3 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: var(--space-xs);
+        }
+
+        .showcase-info p {
+            color: var(--color-text-secondary);
+            font-size: 0.95rem;
+            max-width: 480px;
+            margin: 0 auto;
+        }
+
+        /* Floating particles canvas */
+        .particles-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+            opacity: 0.4;
+        }
+
+        /* Ensure content is above particles */
+        .nav, main, .footer { position: relative; z-index: 1; }
+
+        @media (max-width: 1024px) {
+            .hero-canvas { display: none; }
+        }
+
+        @media (max-width: 768px) {
+            .showcase-viewer { aspect-ratio: 4/3; }
+            .showcase-tabs { gap: 6px; }
+            .showcase-tab { padding: 0.5rem 1rem; font-size: 0.75rem; }
+        }
+
+        /* Skip link */
+        .skip-link {
+            position: absolute;
+            top: -100%;
+            left: var(--space-md);
+            padding: var(--space-sm) var(--space-md);
+            background: var(--color-orange);
+            color: var(--color-text-inverse);
+            border-radius: var(--radius-sm);
+            font-weight: 600;
+            font-size: 0.875rem;
+            z-index: 200;
+            transition: top var(--t-fast) var(--ease-out);
+        }
+        .skip-link:focus {
+            top: var(--space-md);
+        }
+
+        /* ============================================
+           MODAL SYSTEM
+           ============================================ */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(13, 11, 9, 0.95);
+            z-index: 300;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity var(--t-exit) var(--ease-out), visibility var(--t-exit);
+            padding: var(--space-xl);
+        }
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+            transition: opacity var(--t-enter) var(--ease-out), visibility var(--t-enter);
+        }
+        .modal-content {
+            background: var(--color-bg-card);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-lg);
+            max-width: 640px;
+            width: 100%;
+            max-height: 85vh;
+            overflow-y: auto;
+            padding: var(--space-3xl);
+            position: relative;
+            transform: translateY(20px) scale(0.97);
+            transition: transform var(--t-exit) var(--ease-out);
+            box-shadow: 0 24px 80px rgba(0,0,0,0.6);
+        }
+        .modal-overlay.active .modal-content {
+            transform: translateY(0) scale(1);
+            transition: transform var(--t-enter) var(--ease-spring);
+        }
+        .modal-close {
+            position: absolute;
+            top: var(--space-lg);
+            right: var(--space-lg);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--color-bg-tertiary);
+            border: 1px solid var(--color-border);
+            color: var(--color-text-secondary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            transition: background-color var(--t-fast) var(--ease-out), color var(--t-fast) var(--ease-out), transform var(--t-fast) var(--ease-out);
+        }
+        .modal-close:hover { background: var(--color-bg-elevated); color: var(--color-text-primary); }
+        .modal-close:active { transform: scale(0.92); }
+
+        .modal-tag {
+            display: inline-block;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--color-orange);
+            margin-bottom: var(--space-sm);
+        }
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--color-text-primary);
+            margin-bottom: var(--space-md);
+            line-height: 1.25;
+        }
+        .modal-desc {
+            color: var(--color-text-secondary);
+            font-size: 0.92rem;
+            line-height: 1.7;
+            margin-bottom: var(--space-xl);
+        }
+        .modal-specs {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-sm);
+            margin-bottom: var(--space-xl);
+        }
+        .modal-spec {
+            background: var(--color-bg-secondary);
+            border-radius: var(--radius-sm);
+            padding: var(--space-md);
+            border: 1px solid var(--color-border);
+        }
+        .modal-spec-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--color-text-tertiary);
+            margin-bottom: 4px;
+        }
+        .modal-spec-value {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--color-text-primary);
+        }
+        .modal-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 0.75rem 1.5rem;
+            background: var(--color-orange);
+            color: var(--color-text-inverse);
+            border: none;
+            border-radius: 100px;
+            font-family: var(--font-body);
+            font-weight: 700;
+            font-size: 0.88rem;
+            cursor: pointer;
+            transition: background-color var(--t-base) var(--ease-out), transform var(--t-fast) var(--ease-out);
+        }
+        .modal-cta:hover { background: var(--color-orange-light); }
+        .modal-cta:active { transform: scale(0.97); }
+
+        /* Gallery Lightbox */
+        .lightbox-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 310;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity var(--t-exit) var(--ease-out), visibility var(--t-exit);
+            cursor: zoom-out;
+        }
+        .lightbox-overlay.active {
+            opacity: 1;
+            visibility: visible;
+            transition: opacity var(--t-enter) var(--ease-out), visibility var(--t-enter);
+        }
+        .lightbox-img {
+            max-width: 90vw;
+            max-height: 85vh;
+            object-fit: contain;
+            border-radius: var(--radius-md);
+            transform: scale(0.92);
+            transition: transform var(--t-exit) var(--ease-out);
+            cursor: default;
+        }
+        .lightbox-overlay.active .lightbox-img {
+            transform: scale(1);
+            transition: transform var(--t-enter) var(--ease-spring);
+        }
+        .lightbox-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.15);
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            transition: background-color var(--t-fast) var(--ease-out), transform var(--t-fast) var(--ease-out);
+        }
+        .lightbox-nav:hover { background: rgba(255,255,255,0.2); }
+        .lightbox-nav:active { transform: translateY(-50%) scale(0.92); }
+        .lightbox-prev { left: var(--space-xl); }
+        .lightbox-next { right: var(--space-xl); }
+        .lightbox-counter {
+            position: absolute;
+            bottom: var(--space-xl);
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(255,255,255,0.6);
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+        }
+        .lightbox-close {
+            position: absolute;
+            top: var(--space-xl);
+            right: var(--space-xl);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.15);
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            transition: background-color var(--t-fast) var(--ease-out);
+        }
+        .lightbox-close:hover { background: rgba(255,255,255,0.2); }
+
+        /* Toast notification */
+        .toast {
+            position: fixed;
+            bottom: var(--space-2xl);
+            left: 50%;
+            transform: translateX(-50%) translateY(20px);
+            background: var(--color-bg-elevated);
+            border: 1px solid var(--color-border);
+            border-radius: 100px;
+            padding: 0.7rem 1.4rem;
+            color: var(--color-text-primary);
+            font-size: 0.82rem;
+            font-weight: 600;
+            font-family: var(--font-body);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+            z-index: 400;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity var(--t-exit) var(--ease-out), transform var(--t-exit) var(--ease-out), visibility var(--t-exit);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .toast.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(0);
+            transition: opacity var(--t-enter) var(--ease-spring), transform var(--t-enter) var(--ease-spring), visibility var(--t-enter);
+        }
+        .toast-icon {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: var(--color-orange);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.65rem;
+            color: var(--color-text-inverse);
+            flex-shrink: 0;
+        }
+
+        /* Material item expand */
+        .material-item { cursor: pointer; transition: background-color var(--t-base) var(--ease-out), padding var(--t-base) var(--ease-out); border-radius: var(--radius-sm); }
+        .material-item:hover { background: var(--color-orange-subtle); }
+        .material-item.expanded { background: var(--color-orange-subtle); padding: var(--space-sm) var(--space-md); }
+        .material-detail {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height var(--t-slow) var(--ease-out), opacity var(--t-base) var(--ease-out);
+            opacity: 0;
+            font-size: 0.82rem;
+            color: var(--color-text-secondary);
+            line-height: 1.6;
+            padding: 0 var(--space-md);
+        }
+        .material-item.expanded .material-detail {
+            max-height: 120px;
+            opacity: 1;
+            padding: var(--space-sm) var(--space-md);
+        }
+
+        /* Sector card active state */
+        .sector-card { cursor: pointer; }
+        .sector-card.active {
+            border-color: var(--color-orange) !important;
+            box-shadow: var(--shadow-glow);
+        }
+        .sector-detail {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height var(--t-slow) var(--ease-out), opacity var(--t-base) var(--ease-out), padding var(--t-base) var(--ease-out);
+            opacity: 0;
+            font-size: 0.8rem;
+            color: var(--color-text-secondary);
+            line-height: 1.6;
+        }
+        .sector-card.active .sector-detail {
+            max-height: 80px;
+            opacity: 1;
+            padding-top: 8px;
+        }
+
+        /* Form validation states */
+        .form-group { position: relative; }
+        .form-input.error { border-color: #e74c3c !important; }
+        .form-input.success { border-color: #2ecc71 !important; }
+        .form-error-msg {
+            font-size: 0.72rem;
+            color: #e74c3c;
+            margin-top: 4px;
+            opacity: 0;
+            transform: translateY(-4px);
+            transition: opacity var(--t-fast) var(--ease-out), transform var(--t-fast) var(--ease-out);
+        }
+        .form-error-msg.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .form-success {
+            text-align: center;
+            padding: var(--space-3xl);
+        }
+        .form-success-icon {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            background: var(--color-orange);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto var(--space-lg);
+            font-size: 1.6rem;
+            color: var(--color-text-inverse);
+            animation: successPop 0.6s var(--ease-spring) both;
+        }
+        @keyframes successPop {
+            0% { transform: scale(0); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .form-success h3 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--color-text-primary);
+            margin-bottom: var(--space-sm);
+        }
+        .form-success p {
+            color: var(--color-text-secondary);
+            font-size: 0.88rem;
+        }
+
+        /* Certification logos clickable */
+        .cert-row img {
+            cursor: pointer;
+            transition: transform var(--t-base) var(--ease-out), filter var(--t-base) var(--ease-out);
+        }
+        .cert-row img:hover {
+            transform: scale(1.08);
+            filter: brightness(1.2);
+        }
+        .cert-row img:active {
+            transform: scale(1.02);
+        }
+
+        /* Language switcher active */
+        .nav-lang a {
+            cursor: pointer;
+            transition: color var(--t-fast) var(--ease-out), background-color var(--t-fast) var(--ease-out);
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+        .nav-lang a.active-lang {
+            background: var(--color-orange);
+            color: var(--color-text-inverse);
+        }
+        .nav-lang a:not(.active-lang):hover {
+            color: var(--color-orange);
+        }
+
+        /* Gallery item clickable */
+        .gallery-item { cursor: pointer; }
+        .gallery-item:active img { transform: scale(0.97); }
+
+        /* 3D Canvas replacements */
+    </style>
+</head>
+<body>
+    <a href="#main" class="skip-link">Vai al contenuto</a>
+
+    <!-- Floating particles background -->
+    <canvas class="particles-bg" id="particlesCanvas" aria-hidden="true"></canvas>
+
+    <!-- ========== NAVIGATION ========== -->
+    <nav class="nav" role="navigation" aria-label="Navigazione principale">
+        <div class="container nav-inner">
+            <a href="#" aria-label="Ponti Guarnizioni — Home">
+                <img src="https://www.pontiguarnizioni.com/assets/img/logo-ponti.png" alt="Ponti Guarnizioni" class="nav-logo">
+            </a>
+            <ul class="nav-links">
+                <li><a href="#home" class="active">Home</a></li>
+                <li><a href="#about">Azienda</a></li>
+                <li><a href="#products">Prodotti</a></li>
+                <li><a href="#showcase">3D</a></li>
+                <li><a href="#sectors">Settori</a></li>
+                <li><a href="#materials">Materie Prime</a></li>
+            </ul>
+            <a href="#contact" class="nav-cta">Contattaci</a>
+            <div class="nav-lang" aria-label="Seleziona lingua">
+                <a href="#" class="active-lang">IT</a>
+                <a href="#">EN</a>
+                <a href="#">FR</a>
+                <a href="#">DE</a>
+            </div>
+            <button class="theme-toggle" aria-label="Cambia tema" title="Cambia tema chiaro/scuro">
+                <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+            </button>
+            <button class="nav-hamburger" aria-label="Apri menu" aria-expanded="false">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Mobile menu -->
+    <div class="nav-mobile" role="dialog" aria-label="Menu mobile">
+        <a href="#home">Home</a>
+        <a href="#about">Azienda</a>
+        <a href="#products">Prodotti</a>
+        <a href="#sectors">Settori</a>
+        <a href="#materials">Materie Prime</a>
+        <a href="#contact">Contattaci</a>
+    </div>
+
+    <main id="main">
+        <!-- ========== HERO ========== -->
+        <section class="hero" id="home">
+            <div class="hero-bg">
+                <img src="https://www.pontiguarnizioni.com/assets/img/img-products.webp" alt="" aria-hidden="true" style="width:100%;height:100%;object-fit:cover;">
+            </div>
+
+            <!-- Three.js Hero 3D Scene -->
+            <canvas class="hero-canvas" id="heroCanvas" aria-hidden="true"></canvas>
+
+            <div class="container hero-content">
+                <div class="hero-badge reveal">
+                    <span class="hero-badge-dot"></span>
+                    Dal 1980 — Eccellenza nella gomma
+                </div>
+                <h1 class="hero-title">
+                    Articoli tecnici<br>in gomma di<br><span class="accent">precisione</span>
+                </h1>
+                <p class="hero-description">
+                    Oltre 10.000 articoli tecnici stampati con maestria artigianale e tecnologia industriale. Guarnizioni, membrane, o-ring e componenti su misura per ogni settore.
+                </p>
+                <div class="hero-actions">
+                    <a href="#products" class="btn-primary">
+                        Esplora prodotti
+                        <svg class="btn-icon" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </a>
+                    <a href="#contact" class="btn-secondary">
+                        Richiedi preventivo
+                    </a>
+                </div>
+                <div class="hero-stats reveal reveal-delay-4">
+                    <div>
+                        <div class="hero-stat-number">40+</div>
+                        <div class="hero-stat-label">Anni di esperienza</div>
+                    </div>
+                    <div>
+                        <div class="hero-stat-number">10K+</div>
+                        <div class="hero-stat-label">Articoli a catalogo</div>
+                    </div>
+                    <div>
+                        <div class="hero-stat-number">12</div>
+                        <div class="hero-stat-label">Settori industriali</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== TICKER ========== -->
+        <div class="ticker" aria-hidden="true">
+            <div class="ticker-track">
+                <span class="ticker-item"><span class="sep"></span> Stampaggio a compressione</span>
+                <span class="ticker-item"><span class="sep"></span> Stampaggio ad iniezione</span>
+                <span class="ticker-item"><span class="sep"></span> Gomma-metallo</span>
+                <span class="ticker-item"><span class="sep"></span> O-Rings speciali</span>
+                <span class="ticker-item"><span class="sep"></span> Membrane</span>
+                <span class="ticker-item"><span class="sep"></span> Guarnizioni industriali</span>
+                <span class="ticker-item"><span class="sep"></span> Articoli su misura</span>
+                <span class="ticker-item"><span class="sep"></span> Qualità certificata ISO 9001</span>
+                <span class="ticker-item"><span class="sep"></span> Stampaggio a compressione</span>
+                <span class="ticker-item"><span class="sep"></span> Stampaggio ad iniezione</span>
+                <span class="ticker-item"><span class="sep"></span> Gomma-metallo</span>
+                <span class="ticker-item"><span class="sep"></span> O-Rings speciali</span>
+                <span class="ticker-item"><span class="sep"></span> Membrane</span>
+                <span class="ticker-item"><span class="sep"></span> Guarnizioni industriali</span>
+                <span class="ticker-item"><span class="sep"></span> Articoli su misura</span>
+                <span class="ticker-item"><span class="sep"></span> Qualità certificata ISO 9001</span>
+            </div>
+        </div>
+
+        <!-- ========== ABOUT ========== -->
+        <section class="about" id="about">
+            <div class="container">
+                <div class="about-grid">
+                    <div class="about-image-wrap reveal">
+                        <div class="about-image">
+                            <img src="https://images.pexels.com/photos/34718926/pexels-photo-34718926.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Stabilimento produttivo Ponti Guarnizioni" loading="lazy" style="width:100%;height:100%;display:block;border-radius:inherit;object-fit:cover;">
+                        </div>
+                    </div>
+                    <div class="about-text">
+                        <span class="section-label reveal">Chi siamo</span>
+                        <h2 class="reveal reveal-delay-1">Tradizione e innovazione dal <span class="accent">1980</span></h2>
+                        <p class="reveal reveal-delay-2">Fondata da Ponti Renato a Foresto Sparso, in provincia di Bergamo, Ponti Guarnizioni è specializzata nello stampaggio di articoli tecnici in gomma per l'industria.</p>
+                        <p class="reveal reveal-delay-3">Ogni componente è realizzato con cura artigianale e precisione industriale, garantendo le più alte prestazioni in ogni condizione operativa.</p>
+                        <div class="about-features reveal reveal-delay-4">
+                            <div class="about-feature">
+                                <div class="about-feature-icon">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                                </div>
+                                <span class="about-feature-text">Certificazione ISO 9001:2015</span>
+                            </div>
+                            <div class="about-feature">
+                                <div class="about-feature-icon">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                                </div>
+                                <span class="about-feature-text">Consegne rapide e puntuali</span>
+                            </div>
+                            <div class="about-feature">
+                                <div class="about-feature-icon">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+                                </div>
+                                <span class="about-feature-text">Produzione su misura</span>
+                            </div>
+                            <div class="about-feature">
+                                <div class="about-feature-icon">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+                                </div>
+                                <span class="about-feature-text">Oltre 10.000 articoli</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== GALLERY / FOTOGALLERY ========== -->
+        <section class="gallery" id="gallery">
+            <div class="container">
+                <div class="gallery-header">
+                    <span class="section-label reveal">Fotogallery</span>
+                    <h2 class="section-title reveal reveal-delay-1">Il nostro stabilimento</h2>
+                    <p class="section-subtitle reveal reveal-delay-2">Uno sguardo alla nostra sede produttiva di Foresto Sparso e ai nostri processi di lavorazione.</p>
+                </div>
+                <div class="gallery-grid">
+                    <div class="gallery-item span-2">
+                        <img src="https://www.pontiguarnizioni.com/assets/img/prodotti/img-disegno-campione-4.jpg" alt="Articoli tecnici in gomma a disegno" loading="lazy">
+                    </div>
+                    <div class="gallery-item">
+                        <img src="https://www.pontiguarnizioni.com/assets/img/prodotti/img-anelli-1.jpg" alt="Anelli di tenuta O-Ring" loading="lazy">
+                    </div>
+                    <div class="gallery-item">
+                        <img src="https://www.pontiguarnizioni.com/assets/img/prodotti/img-costampati-1.jpg" alt="Costampati gomma-metallo" loading="lazy">
+                    </div>
+                    <div class="gallery-item">
+                        <img src="https://www.pontiguarnizioni.com/assets/img/prodotti/img-guarnizioni-1.jpg" alt="Guarnizioni industriali" loading="lazy">
+                    </div>
+                    <div class="gallery-item">
+                        <img src="https://www.pontiguarnizioni.com/assets/img/prodotti/img-soffietti-1.jpg" alt="Soffietti in gomma" loading="lazy">
+                    </div>
+                    <div class="gallery-item span-2">
+                        <img src="https://www.pontiguarnizioni.com/assets/img/prodotti/img-disegno-campione-1.jpg" alt="Produzione articoli in gomma su misura" loading="lazy">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== 3D PRODUCT SHOWCASE ========== -->
+        <section class="showcase-3d" id="showcase">
+            <div class="container">
+                <div class="showcase-3d-header">
+                    <span class="section-label reveal">Modelli 3D</span>
+                    <h2 class="section-title">Esplora in 3D</h2>
+                    <p class="section-subtitle reveal">Interagisci con i modelli tridimensionali dei nostri prodotti. Trascina per ruotare.</p>
+                </div>
+                <div class="showcase-viewer">
+                    <canvas class="showcase-canvas" id="showcaseCanvas"></canvas>
+                </div>
+                <div class="showcase-tabs">
+                    <button class="showcase-tab active" data-model="oring">O-Ring</button>
+                    <button class="showcase-tab" data-model="washer">Rondella</button>
+                    <button class="showcase-tab" data-model="membrane">Membrana</button>
+                    <button class="showcase-tab" data-model="bellows">Soffietto</button>
+                    <button class="showcase-tab" data-model="gasket">Guarnizione</button>
+                </div>
+                <div class="showcase-info">
+                    <h3 id="showcaseTitle">O-Ring</h3>
+                    <p id="showcaseDesc">Anelli di tenuta in materiali elastomerici per applicazioni industriali ad alta pressione e temperatura.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== PRODUCTS ========== -->
+        <section class="products" id="products">
+            <div class="container">
+                <div class="products-header">
+                    <span class="section-label reveal">Catalogo</span>
+                    <h2 class="section-title reveal reveal-delay-1">I nostri prodotti</h2>
+                    <p class="section-subtitle reveal reveal-delay-2">Articoli tecnici in gomma stampati con la massima precisione per ogni esigenza industriale.</p>
+                </div>
+
+                <div class="products-grid">
+                    <!-- Featured: Articoli a disegno -->
+                    <div class="product-card featured">
+                        <div class="product-card-inner">
+                            <div class="product-card-image">
+                                <img src="https://www.pontiguarnizioni.com/assets/img/prodotti/img-disegno-campione-2.jpg" alt="Articoli in gomma a disegno e a campione" loading="lazy">
+                            </div>
+                            <div class="product-card-body">
+                                <h3 class="product-card-title">Articoli a disegno e a campione</h3>
+                                <p class="product-card-desc">Realizziamo articoli tecnici in gomma su specifiche del cliente, da disegno tecnico o da campione.</p>
+                            </div>
+                            <div class="product-card-arrow">
+                                <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M12 4H5M12 4v7" stroke="#FF9919" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- O-Rings -->
+                    <div class="product-card">
+                        <div class="product-card-inner">
+                            <div class="product-card-image">
+                                <img src="https://www.pontiguarnizioni.com/assets/img/prodotti/img-anelli-2.jpg" alt="Anelli di tenuta e O-Rings" loading="lazy">
+                            </div>
+                            <div class="product-card-body">
+                                <h3 class="product-card-title">Anelli di tenuta</h3>
+                                <p class="product-card-desc">O-Rings standard e speciali per dimensioni e mescole personalizzate.</p>
+                            </div>
+                            <div class="product-card-arrow">
+                                <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M12 4H5M12 4v7" stroke="#FF9919" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Membrane -->
+                    <div class="product-card">
+                        <div class="product-card-inner">
+                            <div class="product-card-image">
+                                <img src="https://www.pontiguarnizioni.com/assets/img/prodotti/img-membrane-1.jpg" alt="Membrane in gomma" loading="lazy">
+                            </div>
+                            <div class="product-card-body">
+                                <h3 class="product-card-title">Membrane</h3>
+                                <p class="product-card-desc">Membrane tecniche per applicazioni industriali ad alte prestazioni.</p>
+                            </div>
+                            <div class="product-card-arrow">
+                                <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M12 4H5M12 4v7" stroke="#FF9919" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Rondelle -->
+                    <div class="product-card">
+                        <div class="product-card-inner">
+                            <div class="product-card-image">
+                                <img src="https://www.pontiguarnizioni.com/assets/img/prodotti/img-rondelle-1.jpg" alt="Rondelle in gomma" loading="lazy">
+                            </div>
+                            <div class="product-card-body">
+                                <h3 class="product-card-title">Rondelle</h3>
+                                <p class="product-card-desc">Rondelle di tenuta in diversi materiali elastomerici e dimensioni.</p>
+                            </div>
+                            <div class="product-card-arrow">
+                                <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M12 4H5M12 4v7" stroke="#FF9919" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Soffietti -->
+                    <div class="product-card">
+                        <div class="product-card-inner">
+                            <div class="product-card-image">
+                                <img src="https://www.pontiguarnizioni.com/assets/img/prodotti/img-soffietti-2.jpg" alt="Soffietti in gomma" loading="lazy">
+                            </div>
+                            <div class="product-card-body">
+                                <h3 class="product-card-title">Soffietti</h3>
+                                <p class="product-card-desc">Soffietti flessibili per protezione componenti meccanici ed idraulici.</p>
+                            </div>
+                            <div class="product-card-arrow">
+                                <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M12 4H5M12 4v7" stroke="#FF9919" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Gomma-metallo -->
+                    <div class="product-card">
+                        <div class="product-card-inner">
+                            <div class="product-card-image">
+                                <img src="https://www.pontiguarnizioni.com/assets/img/prodotti/img-costampati-2.jpg" alt="Articoli costampati gomma-metallo" loading="lazy">
+                            </div>
+                            <div class="product-card-body">
+                                <h3 class="product-card-title">Costampati gomma-metallo</h3>
+                                <p class="product-card-desc">Componenti compositi gomma-metallo per la massima resistenza meccanica.</p>
+                            </div>
+                            <div class="product-card-arrow">
+                                <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M12 4H5M12 4v7" stroke="#FF9919" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Guarnizioni filtri -->
+                    <div class="product-card featured">
+                        <div class="product-card-inner">
+                            <div class="product-card-image">
+                                <img src="https://www.pontiguarnizioni.com/assets/img/prodotti/img-guarnizioni-1.jpg" alt="Guarnizioni per filtri" loading="lazy">
+                            </div>
+                            <div class="product-card-body">
+                                <h3 class="product-card-title">Guarnizioni per filtri</h3>
+                                <p class="product-card-desc">Guarnizioni di tenuta per sistemi di filtrazione industriale, alimentare e idraulica.</p>
+                            </div>
+                            <div class="product-card-arrow">
+                                <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M12 4H5M12 4v7" stroke="#FF9919" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Passacavi -->
+                    <div class="product-card">
+                        <div class="product-card-inner">
+                            <div class="product-card-image">
+                                <img src="https://www.pontiguarnizioni.com/assets/img/prodotti/img-passacavi-1.jpg" alt="Passacavi in gomma" loading="lazy">
+                            </div>
+                            <div class="product-card-body">
+                                <h3 class="product-card-title">Passacavi</h3>
+                                <p class="product-card-desc">Passacavi e passafili per il settore elettrico ed elettronico.</p>
+                            </div>
+                            <div class="product-card-arrow">
+                                <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M12 4H5M12 4v7" stroke="#FF9919" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== SECTORS ========== -->
+        <section class="sectors" id="sectors">
+            <div class="container">
+                <div class="sectors-header">
+                    <span class="section-label reveal">Settori</span>
+                    <h2 class="section-title reveal reveal-delay-1">Settori industriali</h2>
+                    <p class="section-subtitle reveal reveal-delay-2">Soluzioni di tenuta per i principali settori dell'industria manifatturiera.</p>
+                </div>
+                <div class="sectors-grid">
+                    <div class="sector-card">
+                        <div class="sector-icon">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FF9919" stroke-width="2" stroke-linecap="round"><path d="M18 8h1a4 4 0 010 8h-1M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8zM6 1v3M10 1v3M14 1v3"/></svg>
+                        </div>
+                        <span class="sector-card-title">Alimentare</span>
+                    </div>
+                    <div class="sector-card">
+                        <div class="sector-icon">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FF9919" stroke-width="2" stroke-linecap="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
+                        </div>
+                        <span class="sector-card-title">Filtrazione</span>
+                    </div>
+                    <div class="sector-card">
+                        <div class="sector-icon">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FF9919" stroke-width="2" stroke-linecap="round"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M9 9h6v6H9z"/><path d="M9 1v3M15 1v3M9 20v3M15 20v3M20 9h3M20 14h3M1 9h3M1 14h3"/></svg>
+                        </div>
+                        <span class="sector-card-title">Elettronica</span>
+                    </div>
+                    <div class="sector-card">
+                        <div class="sector-icon">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FF9919" stroke-width="2" stroke-linecap="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                        </div>
+                        <span class="sector-card-title">Elettrovalvole</span>
+                    </div>
+                    <div class="sector-card">
+                        <div class="sector-icon">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FF9919" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+                        </div>
+                        <span class="sector-card-title">Oleodinamico</span>
+                    </div>
+                    <div class="sector-card">
+                        <div class="sector-icon">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FF9919" stroke-width="2" stroke-linecap="round"><path d="M12 2v20M2 12h20"/><circle cx="12" cy="12" r="10"/></svg>
+                        </div>
+                        <span class="sector-card-title">Pneumatico</span>
+                    </div>
+                    <div class="sector-card">
+                        <div class="sector-icon">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FF9919" stroke-width="2" stroke-linecap="round"><path d="M12 2.69l5.66 5.66a8 8 0 11-11.31 0z"/></svg>
+                        </div>
+                        <span class="sector-card-title">Idraulico</span>
+                    </div>
+                    <div class="sector-card">
+                        <div class="sector-icon">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FF9919" stroke-width="2" stroke-linecap="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                        </div>
+                        <span class="sector-card-title">Elettrodomestico</span>
+                    </div>
+                    <div class="sector-card">
+                        <div class="sector-icon">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FF9919" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+                        </div>
+                        <span class="sector-card-title">Ottico</span>
+                    </div>
+                    <div class="sector-card">
+                        <div class="sector-icon">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FF9919" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/></svg>
+                        </div>
+                        <span class="sector-card-title">Illuminazione</span>
+                    </div>
+                    <div class="sector-card">
+                        <div class="sector-icon">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FF9919" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+                        </div>
+                        <span class="sector-card-title">Meccanizzazione agricola</span>
+                    </div>
+                    <div class="sector-card">
+                        <div class="sector-icon">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FF9919" stroke-width="2" stroke-linecap="round"><path d="M8 21h8M12 15v6M17.5 2a4.5 4.5 0 00-4.46 3.89 4 4 0 00-6.88 3.57A3.5 3.5 0 006 16h11a4.5 4.5 0 00.5-8.97z"/></svg>
+                        </div>
+                        <span class="sector-card-title">Enologia</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== MATERIALS ========== -->
+        <section class="materials" id="materials">
+            <div class="container">
+                <div class="materials-content">
+                    <div>
+                        <span class="section-label reveal">Materie prime</span>
+                        <h2 class="section-title reveal reveal-delay-1" style="margin-bottom: var(--space-md);">Elastomeri di<br>qualità superiore</h2>
+                        <p class="section-subtitle reveal reveal-delay-2">Selezioniamo le migliori mescole elastomeriche per garantire prestazioni ottimali in ogni condizione operativa, dalla temperatura estrema alla resistenza chimica.</p>
+                    </div>
+                    <div class="material-list reveal reveal-delay-3">
+                        <div class="material-item">
+                            <span class="material-dot"></span>
+                            <span class="material-name">Gomma Naturale</span>
+                            <span class="material-abbr">NR</span>
+                        </div>
+                        <div class="material-item">
+                            <span class="material-dot"></span>
+                            <span class="material-name">Gomma Nitrilica</span>
+                            <span class="material-abbr">NBR</span>
+                        </div>
+                        <div class="material-item">
+                            <span class="material-dot"></span>
+                            <span class="material-name">Gomma Siliconica</span>
+                            <span class="material-abbr">VMQ</span>
+                        </div>
+                        <div class="material-item">
+                            <span class="material-dot"></span>
+                            <span class="material-name">Fluoroelastomero</span>
+                            <span class="material-abbr">FKM/FPM</span>
+                        </div>
+                        <div class="material-item">
+                            <span class="material-dot"></span>
+                            <span class="material-name">EPDM</span>
+                            <span class="material-abbr">EPDM</span>
+                        </div>
+                        <div class="material-item">
+                            <span class="material-dot"></span>
+                            <span class="material-name">Neoprene</span>
+                            <span class="material-abbr">CR</span>
+                        </div>
+                        <div class="material-item">
+                            <span class="material-dot"></span>
+                            <span class="material-name">Poliuretano</span>
+                            <span class="material-abbr">AU/EU</span>
+                        </div>
+                        <div class="material-item">
+                            <span class="material-dot"></span>
+                            <span class="material-name">Gomma Butilica</span>
+                            <span class="material-abbr">IIR</span>
+                        </div>
+                        <div class="material-item">
+                            <span class="material-dot"></span>
+                            <span class="material-name">Gomma Stirene-Butadiene</span>
+                            <span class="material-abbr">SBR</span>
+                        </div>
+                        <div class="material-item">
+                            <span class="material-dot"></span>
+                            <span class="material-name">Gomma Acrilica</span>
+                            <span class="material-abbr">ACM</span>
+                        </div>
+                        <div class="material-item">
+                            <span class="material-dot"></span>
+                            <span class="material-name">NBR Carbossilata</span>
+                            <span class="material-abbr">XNBR</span>
+                        </div>
+                        <div class="material-item">
+                            <span class="material-dot"></span>
+                            <span class="material-name">Etilene-Propilene</span>
+                            <span class="material-abbr">EPM</span>
+                        </div>
+                        <div class="material-item">
+                            <span class="material-dot"></span>
+                            <span class="material-name">Perfluoroelastomero</span>
+                            <span class="material-abbr">FFKM</span>
+                        </div>
+                        <div class="material-item">
+                            <span class="material-dot"></span>
+                            <span class="material-name">Fluorosilicone</span>
+                            <span class="material-abbr">FVMQ</span>
+                        </div>
+                        <div class="material-item">
+                            <span class="material-dot"></span>
+                            <span class="material-name">Epicloridrina</span>
+                            <span class="material-abbr">CO</span>
+                        </div>
+                        <div class="material-item">
+                            <span class="material-dot"></span>
+                            <span class="material-name">Politetrafluoroetilene</span>
+                            <span class="material-abbr">PTFE</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Materials properties table -->
+            <div class="container" style="margin-top: var(--space-3xl);">
+                <h3 class="section-label reveal" style="margin-bottom: var(--space-lg);">Tabella caratteristiche materie prime</h3>
+                <div class="materials-table-wrap reveal reveal-delay-1">
+                    <table class="materials-table">
+                        <thead>
+                            <tr>
+                                <th>Sigla</th>
+                                <th>Nome</th>
+                                <th>Temp. Min</th>
+                                <th>Temp. Max</th>
+                                <th>Resistenza oli</th>
+                                <th>Resistenza ozono</th>
+                                <th>Uso alimentare</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td class="mat-name">SBR</td><td>Stirene-Butadiene</td><td class="mat-range">-40°C</td><td class="mat-range">+100°C</td><td>Scarsa</td><td>Scarsa</td><td>No</td></tr>
+                            <tr><td class="mat-name">NBR</td><td>Gomma Nitrilica</td><td class="mat-range">-30°C</td><td class="mat-range">+120°C</td><td>Buona</td><td>Scarsa</td><td>Sì</td></tr>
+                            <tr><td class="mat-name">NR</td><td>Gomma Naturale</td><td class="mat-range">-50°C</td><td class="mat-range">+80°C</td><td>Scarsa</td><td>Scarsa</td><td>Sì</td></tr>
+                            <tr><td class="mat-name">ACM</td><td>Gomma Acrilica</td><td class="mat-range">-20°C</td><td class="mat-range">+170°C</td><td>Buona</td><td>Buona</td><td>No</td></tr>
+                            <tr><td class="mat-name">CR</td><td>Neoprene</td><td class="mat-range">-40°C</td><td class="mat-range">+120°C</td><td>Discreta</td><td>Buona</td><td>No</td></tr>
+                            <tr><td class="mat-name">XNBR</td><td>NBR Carbossilata</td><td class="mat-range">-20°C</td><td class="mat-range">+120°C</td><td>Buona</td><td>Scarsa</td><td>No</td></tr>
+                            <tr><td class="mat-name">EPDM</td><td>Etilene-Propilene-Diene</td><td class="mat-range">-50°C</td><td class="mat-range">+150°C</td><td>Scarsa</td><td>Eccellente</td><td>Sì</td></tr>
+                            <tr><td class="mat-name">EPM</td><td>Etilene-Propilene</td><td class="mat-range">-50°C</td><td class="mat-range">+150°C</td><td>Scarsa</td><td>Buona</td><td>No</td></tr>
+                            <tr><td class="mat-name">IIR</td><td>Gomma Butilica</td><td class="mat-range">-40°C</td><td class="mat-range">+130°C</td><td>Scarsa</td><td>Buona</td><td>Sì</td></tr>
+                            <tr><td class="mat-name">FVMQ</td><td>Fluorosilicone</td><td class="mat-range">-60°C</td><td class="mat-range">+200°C</td><td>Buona</td><td>Eccellente</td><td>No</td></tr>
+                            <tr><td class="mat-name">FKM</td><td>Fluoroelastomero</td><td class="mat-range">-20°C</td><td class="mat-range">+250°C</td><td>Eccellente</td><td>Eccellente</td><td>Sì</td></tr>
+                            <tr><td class="mat-name">FFKM</td><td>Perfluoroelastomero</td><td class="mat-range">-15°C</td><td class="mat-range">+320°C</td><td>Eccellente</td><td>Eccellente</td><td>No</td></tr>
+                            <tr><td class="mat-name">VMQ</td><td>Gomma Siliconica</td><td class="mat-range">-60°C</td><td class="mat-range">+230°C</td><td>Scarsa</td><td>Eccellente</td><td>Sì</td></tr>
+                            <tr><td class="mat-name">AU/EU</td><td>Poliuretano</td><td class="mat-range">-30°C</td><td class="mat-range">+100°C</td><td>Buona</td><td>Scarsa</td><td>No</td></tr>
+                            <tr><td class="mat-name">CO</td><td>Epicloridrina</td><td class="mat-range">-40°C</td><td class="mat-range">+140°C</td><td>Buona</td><td>Buona</td><td>No</td></tr>
+                            <tr><td class="mat-name">PTFE</td><td>Politetrafluoroetilene</td><td class="mat-range">-200°C</td><td class="mat-range">+260°C</td><td>Eccellente</td><td>Eccellente</td><td>Sì</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== CTA ========== -->
+        <section class="cta">
+            <div class="container">
+                <div class="cta-box reveal">
+                    <span class="section-label">Realizzazione su misura</span>
+                    <h2>Hai bisogno di un<br>articolo <span class="accent">personalizzato</span>?</h2>
+                    <p>Valutiamo il tuo progetto e, in collaborazione con costruttori qualificati di stampi, proponiamo soluzioni tecniche ottimali al tuo campo d'applicazione.</p>
+                    <a href="#contact" class="btn-primary">
+                        Richiedi preventivo
+                        <svg class="btn-icon" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== CONTACT / CONTATTI ========== -->
+        <section class="contact-section" id="contact">
+            <div class="container">
+                <span class="section-label reveal">Contatti</span>
+                <h2 class="section-title reveal reveal-delay-1" style="margin-bottom: var(--space-3xl);">Dove siamo</h2>
+                <div class="contact-grid">
+                    <!-- Contact Form -->
+                    <div>
+                        <h3 style="font-size:1.1rem; font-weight:700; margin-bottom:var(--space-xs);" class="reveal">Desideri informazioni o un preventivo?</h3>
+                        <p style="color:var(--color-text-secondary); font-size:0.9rem; margin-bottom:var(--space-xl);" class="reveal reveal-delay-1">Compila il modulo con i tuoi dati aziendali per essere ricontattato al più presto.</p>
+                        <form class="contact-form reveal reveal-delay-2" onsubmit="event.preventDefault();">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Nome e Cognome <span class="required">*</span></label>
+                                    <input type="text" class="form-input" placeholder="Il tuo nome" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Azienda <span class="required">*</span></label>
+                                    <input type="text" class="form-input" placeholder="Nome azienda" required>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Email <span class="required">*</span></label>
+                                    <input type="email" class="form-input" placeholder="email@azienda.it" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Telefono</label>
+                                    <input type="tel" class="form-input" placeholder="+39 ...">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Messaggio <span class="required">*</span></label>
+                                <textarea class="form-input" placeholder="Descrivi la tua richiesta, il tipo di articolo, quantità, materiale..." required></textarea>
+                            </div>
+                            <button type="submit" class="btn-primary" style="align-self: flex-start;">
+                                Invia richiesta
+                                <svg class="btn-icon" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- Contact Info + Map -->
+                    <div class="contact-info-block">
+                        <div class="contact-info-item">
+                            <div class="contact-info-icon">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                            </div>
+                            <div class="contact-info-text">
+                                <h4>Sede</h4>
+                                <p>Via Faveti, 13<br>24060 — Foresto Sparso<br>Bergamo — Italia</p>
+                            </div>
+                        </div>
+                        <div class="contact-info-item">
+                            <div class="contact-info-icon">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>
+                            </div>
+                            <div class="contact-info-text">
+                                <h4>Telefono</h4>
+                                <p><a href="tel:+39035934360">+39 035 934360</a><br><a href="tel:+39035930913">+39 035 930913</a></p>
+                                <p style="margin-top:2px;">Fax: +39 035 934361</p>
+                            </div>
+                        </div>
+                        <div class="contact-info-item">
+                            <div class="contact-info-icon">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                            </div>
+                            <div class="contact-info-text">
+                                <h4>Email</h4>
+                                <p><a href="mailto:exportfr@pontiguarnizioni.com">exportfr@pontiguarnizioni.com</a><br><a href="mailto:pontisnc@mlcert.it">pontisnc@mlcert.it</a></p>
+                            </div>
+                        </div>
+                        <div class="contact-map">
+                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2780.123!2d9.897!3d45.713!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDXCsDQyJzQ3LjAiTiA5wrA1Myc0OS4wIkU!5e0!3m2!1sit!2sit!4v1" allowfullscreen loading="lazy" title="Mappa Ponti Guarnizioni"></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== CERTIFICATIONS ========== -->
+        <section class="certifications" aria-label="Certificazioni">
+            <div class="container">
+                <div class="cert-row">
+                    <img src="https://www.pontiguarnizioni.com/assets/img/logo-iqnet.png" alt="IQNet Certification" loading="lazy">
+                    <img src="https://www.pontiguarnizioni.com/assets/img/logo-iip.png" alt="IIP Certification" loading="lazy">
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- ========== FOOTER ========== -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <img src="https://www.pontiguarnizioni.com/assets/img/logo-ponti.png" alt="Ponti Guarnizioni" style="height: 36px;">
+                    <p>Dal 1980, specialisti nella produzione di articoli tecnici in gomma per l'industria. Foresto Sparso, Bergamo — Italia.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Prodotti</h4>
+                    <ul>
+                        <li><a href="#">Articoli a disegno</a></li>
+                        <li><a href="#">O-Rings</a></li>
+                        <li><a href="#">Membrane</a></li>
+                        <li><a href="#">Soffietti</a></li>
+                        <li><a href="#">Costampati</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Azienda</h4>
+                    <ul>
+                        <li><a href="#">Chi siamo</a></li>
+                        <li><a href="#">Certificazioni</a></li>
+                        <li><a href="#">Materie prime</a></li>
+                        <li><a href="#">Settori</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Contatti</h4>
+                    <ul>
+                        <li><a href="mailto:exportfr@pontiguarnizioni.com">exportfr@pontiguarnizioni.com</a></li>
+                        <li><a href="tel:+39035934360">+39 035 934360</a></li>
+                        <li><a href="tel:+39035930913">+39 035 930913</a></li>
+                        <li><a href="#">Via Faveti 13, Foresto Sparso (BG)</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <span>&copy; 2024 Ponti Guarnizioni S.r.l. — P.IVA 00000000000</span>
+                <span>Privacy Policy &middot; Cookie Policy</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ========== MODAL (reusable) ========== -->
+    <div class="modal-overlay" id="modalOverlay" role="dialog" aria-modal="true" aria-hidden="true">
+        <div class="modal-content">
+            <button class="modal-close" aria-label="Chiudi">&times;</button>
+            <span class="modal-tag" id="modalTag"></span>
+            <h3 class="modal-title" id="modalTitle"></h3>
+            <p class="modal-desc" id="modalDesc"></p>
+            <div class="modal-specs" id="modalSpecs"></div>
+            <a href="#contact" class="modal-cta" id="modalCta">Richiedi preventivo <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        </div>
+    </div>
+
+    <!-- ========== LIGHTBOX ========== -->
+    <div class="lightbox-overlay" id="lightboxOverlay" role="dialog" aria-modal="true" aria-hidden="true">
+        <img class="lightbox-img" id="lightboxImg" src="" alt="">
+        <button class="lightbox-prev lightbox-nav" aria-label="Precedente">&#8249;</button>
+        <button class="lightbox-next lightbox-nav" aria-label="Successivo">&#8250;</button>
+        <button class="lightbox-close" aria-label="Chiudi">&times;</button>
+        <span class="lightbox-counter" id="lightboxCounter"></span>
+    </div>
+
+    <!-- ========== TOAST ========== -->
+    <div class="toast" id="toast">
+        <span class="toast-icon">&#10003;</span>
+        <span id="toastText"></span>
+    </div>
+
+    <!-- ========== SCRIPTS ========== -->
+    <script>
+    (function() {
+        'use strict';
+
+        // ====== NAV SCROLL ======
+        const nav = document.querySelector('.nav');
+        window.addEventListener('scroll', () => {
+            nav.classList.toggle('scrolled', window.scrollY > 60);
+        }, { passive: true });
+
+        // ====== MOBILE MENU ======
+        const hamburger = document.querySelector('.nav-hamburger');
+        const mobileMenu = document.querySelector('.nav-mobile');
+        hamburger.addEventListener('click', () => {
+            const open = hamburger.classList.toggle('open');
+            mobileMenu.classList.toggle('open', open);
+            hamburger.setAttribute('aria-expanded', open);
+            document.body.style.overflow = open ? 'hidden' : '';
+        });
+        mobileMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('open');
+                mobileMenu.classList.remove('open');
+                hamburger.setAttribute('aria-expanded', 'false');
+                document.body.style.overflow = '';
+            });
+        });
+
+        // ====== THEME TOGGLE ======
+        const themeToggle = document.querySelector('.theme-toggle');
+        const htmlEl = document.documentElement;
+
+        // Restore saved theme
+        const savedTheme = localStorage.getItem('ponti-theme');
+        if (savedTheme) {
+            htmlEl.setAttribute('data-theme', savedTheme);
+        }
+
+        themeToggle.addEventListener('click', () => {
+            const current = htmlEl.getAttribute('data-theme');
+            const next = current === 'light' ? 'dark' : 'light';
+
+            // Add transition class for smooth color crossfade
+            htmlEl.classList.add('theme-transitioning');
+            htmlEl.setAttribute('data-theme', next);
+            localStorage.setItem('ponti-theme', next);
+
+            // Remove transition class after animation completes
+            setTimeout(() => htmlEl.classList.remove('theme-transitioning'), 450);
+
+            // Update Three.js scenes
+            updateThreeTheme();
+        });
+
+        // Live-update all Three.js materials and scene colors
+        function updateThreeTheme() {
+            const t = getTheme3D();
+
+            // Rubber materials — per-model colors in light mode
+            const isLight = isLightTheme();
+            rubberMaterials.forEach(m => {
+                const modelColors = (isLight && t.rubberColors && m._modelName) ? t.rubberColors[m._modelName] : null;
+                m.color.setHex(modelColors ? modelColors.color : t.rubber);
+                m.specular.setHex(modelColors ? modelColors.spec : t.rubberSpec);
+                m.emissive.setHex(modelColors ? modelColors.emissive : t.rubberEmissive);
+            });
+
+            // Metal materials
+            metalMaterials.forEach(m => {
+                m.color.setHex(t.metal);
+                m.emissive.setHex(t.metalEmissive);
+            });
+
+            // Hole materials
+            holeMaterials.forEach(m => {
+                m.color.setHex(t.hole);
+                m.specular.setHex(t.holeSpec);
+            });
+
+            // Bolt hole materials
+            boltHoleMaterials.forEach(m => {
+                m.color.setHex(t.boltHole);
+                m.specular.setHex(t.boltSpec);
+            });
+
+            // Showcase scene
+            if (showcaseRenderer) {
+                showcaseRenderer.setClearColor(t.clearColor, 1);
+            }
+            if (showcaseScene && showcaseScene.fog) {
+                showcaseScene.fog.color.setHex(t.fog);
+            }
+            if (showcaseGround) {
+                showcaseGround.material.color.setHex(t.ground);
+                showcaseGround.material.specular.setHex(t.groundSpec);
+            }
+            if (showcaseGrid) {
+                const gMats = Array.isArray(showcaseGrid.material) ? showcaseGrid.material : [showcaseGrid.material];
+                gMats.forEach(m => m.color.setHex(t.grid));
+            }
+            if (showcaseAmbient) {
+                showcaseAmbient.color.setHex(isLightTheme() ? 0x606060 : 0x303030);
+                showcaseAmbient.intensity = isLightTheme() ? 0.8 : 0.5;
+            }
+
+            // Hero ambient
+            if (window._heroAmbient) {
+                window._heroAmbient.color.setHex(isLightTheme() ? 0x808080 : 0x404040);
+                window._heroAmbient.intensity = isLightTheme() ? 1.0 : 0.6;
+            }
+        }
+
+        // ====== GSAP + SCROLLTRIGGER ======
+        gsap.registerPlugin(ScrollTrigger);
+        gsap.config({ force3D: true });
+
+        // -- Generic .reveal elements: simple batch fade-in --
+        // These are only section-labels, hero-badge, cta-box, etc.
+        // NOT product cards, sector cards, gallery items (those have their own animations)
+        ScrollTrigger.batch('.reveal', {
+            onEnter: batch => {
+                gsap.to(batch, {
+                    opacity: 1,
+                    y: 0,
+                    duration: 0.6,
+                    ease: 'power2.out',
+                    stagger: 0.08,
+                    overwrite: true
+                });
+            },
+            start: 'top 88%',
+            once: true
+        });
+        // Set initial state for reveal elements via GSAP (not CSS transform)
+        gsap.set('.reveal', { y: 20 });
+
+        // -- Hero title line-by-line reveal --
+        const heroTitle = document.querySelector('.hero-title');
+        if (heroTitle) {
+            const lines = heroTitle.innerHTML.split('<br>').length > 1
+                ? heroTitle.innerHTML.split('<br>')
+                : [heroTitle.innerHTML];
+
+            heroTitle.innerHTML = lines.map(line =>
+                `<span class="line"><span class="line-inner">${line.trim()}</span></span>`
+            ).join('');
+            heroTitle.style.opacity = '1';
+            heroTitle.style.transform = 'none';
+
+            gsap.to('.hero-title .line-inner', {
+                y: '0%',
+                duration: 0.9,
+                ease: 'power3.out',
+                stagger: 0.12,
+                delay: 0.2
+            });
+        }
+
+        // -- Hero subtitle + buttons --
+        gsap.fromTo('.hero-subtitle',
+            { opacity: 0, y: 15 },
+            { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out', delay: 0.6 }
+        );
+        gsap.fromTo('.hero-actions',
+            { opacity: 0, y: 15 },
+            { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out', delay: 0.8 }
+        );
+
+        // -- Section titles: word-by-word reveal (simpler than per-char, much fewer DOM nodes) --
+        document.querySelectorAll('.section-title').forEach(title => {
+            const text = title.textContent;
+            const words = text.split(' ');
+            title.innerHTML = words.map(word =>
+                `<span class="split-word"><span class="split-char">${word}</span></span>`
+            ).join(' ');
+            title.style.opacity = '1';
+            title.style.transform = 'none';
+
+            gsap.fromTo(title.querySelectorAll('.split-char'),
+                { opacity: 0, y: 30 },
+                {
+                    opacity: 1,
+                    y: 0,
+                    duration: 0.5,
+                    ease: 'power2.out',
+                    stagger: 0.06,
+                    scrollTrigger: {
+                        trigger: title,
+                        start: 'top 85%',
+                        once: true
+                    }
+                }
+            );
+        });
+
+        // -- Product cards: staggered entrance --
+        gsap.fromTo('.product-card',
+            { opacity: 0, y: 40 },
+            {
+                opacity: 1, y: 0,
+                duration: 0.5,
+                ease: 'power2.out',
+                stagger: { amount: 0.4, from: 'start' },
+                scrollTrigger: {
+                    trigger: '.products-grid',
+                    start: 'top 80%',
+                    once: true
+                }
+            }
+        );
+
+        // -- Sector cards: staggered scale entrance --
+        gsap.fromTo('.sector-card',
+            { opacity: 0, y: 30 },
+            {
+                opacity: 1, y: 0,
+                duration: 0.4,
+                ease: 'power2.out',
+                stagger: { amount: 0.5, from: 'start' },
+                scrollTrigger: {
+                    trigger: '.sectors-grid',
+                    start: 'top 80%',
+                    once: true
+                }
+            }
+        );
+
+        // -- Material items: staggered fade-in --
+        gsap.fromTo('.material-item',
+            { opacity: 0, x: -20 },
+            {
+                opacity: 1, x: 0,
+                duration: 0.4,
+                ease: 'power2.out',
+                stagger: 0.03,
+                scrollTrigger: {
+                    trigger: '.material-list',
+                    start: 'top 85%',
+                    once: true
+                }
+            }
+        );
+
+        // -- Gallery items: staggered fade --
+        gsap.fromTo('.gallery-item',
+            { opacity: 0, y: 30 },
+            {
+                opacity: 1, y: 0,
+                duration: 0.5,
+                ease: 'power2.out',
+                stagger: 0.08,
+                scrollTrigger: {
+                    trigger: '.gallery-grid',
+                    start: 'top 85%',
+                    once: true
+                }
+            }
+        );
+
+        // -- Parallax: hero background image --
+        const heroBgImg = document.querySelector('.hero-bg img');
+        if (heroBgImg) {
+            gsap.to(heroBgImg, {
+                y: '20%',
+                ease: 'none',
+                scrollTrigger: {
+                    trigger: '.hero',
+                    start: 'top top',
+                    end: 'bottom top',
+                    scrub: 0.5
+                }
+            });
+        }
+
+        // -- Parallax: about image subtle float --
+        gsap.to('.about-image', {
+            y: -30,
+            ease: 'none',
+            scrollTrigger: {
+                trigger: '.about',
+                start: 'top bottom',
+                end: 'bottom top',
+                scrub: 1
+            }
+        });
+
+        // -- 3D showcase: no pin, just a clean fade-in for the viewer --
+        gsap.fromTo('.showcase-viewer',
+            { opacity: 0, y: 30 },
+            {
+                opacity: 1, y: 0,
+                duration: 0.6,
+                ease: 'power2.out',
+                scrollTrigger: {
+                    trigger: '.showcase-viewer',
+                    start: 'top 85%',
+                    once: true
+                }
+            }
+        );
+
+        // -- Contact info: slide in --
+        gsap.fromTo('.contact-info-block',
+            { opacity: 0, x: 40 },
+            {
+                opacity: 1, x: 0,
+                duration: 0.6,
+                ease: 'power2.out',
+                scrollTrigger: {
+                    trigger: '.contact-grid',
+                    start: 'top 80%',
+                    once: true
+                }
+            }
+        );
+
+        // -- Certification logos: fade in --
+        gsap.fromTo('.cert-row img',
+            { opacity: 0, scale: 0.7 },
+            {
+                opacity: 1, scale: 1,
+                duration: 0.4,
+                ease: 'power2.out',
+                stagger: 0.1,
+                scrollTrigger: {
+                    trigger: '.certifications',
+                    start: 'top 88%',
+                    once: true
+                }
+            }
+        );
+
+        // -- Nav: hide on scroll down, show on scroll up --
+        const navRef = document.querySelector('.nav');
+        let navHidden = false;
+        ScrollTrigger.create({
+            start: 'top -80',
+            onUpdate: (self) => {
+                const shouldHide = self.direction === 1 && window.scrollY > 300;
+                if (shouldHide !== navHidden) {
+                    navHidden = shouldHide;
+                    gsap.to(navRef, {
+                        y: shouldHide ? -100 : 0,
+                        duration: shouldHide ? 0.25 : 0.35,
+                        ease: shouldHide ? 'power2.in' : 'power2.out',
+                        overwrite: true
+                    });
+                }
+            }
+        });
+
+        // ====== ACTIVE NAV ======
+        const sections = document.querySelectorAll('section[id]');
+        const navLinks = document.querySelectorAll('.nav-links a');
+        const secObs = new IntersectionObserver((entries) => {
+            entries.forEach(e => {
+                if (e.isIntersecting) navLinks.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + e.target.id));
+            });
+        }, { threshold: 0.3, rootMargin: '-80px 0px -50% 0px' });
+        sections.forEach(s => secObs.observe(s));
+
+        // ====== 3D CARD TILT ======
+        document.querySelectorAll('.product-card').forEach(card => {
+            const inner = card.querySelector('.product-card-inner');
+            card.addEventListener('mousemove', (e) => {
+                const r = card.getBoundingClientRect();
+                const x = (e.clientX - r.left) / r.width, y = (e.clientY - r.top) / r.height;
+                inner.style.setProperty('--rx', ((0.5 - y) * 8) + 'deg');
+                inner.style.setProperty('--ry', ((x - 0.5) * 12) + 'deg');
+            });
+            card.addEventListener('mouseleave', () => { inner.style.setProperty('--rx','0deg'); inner.style.setProperty('--ry','0deg'); });
+        });
+
+        // ====== SMOOTH SCROLL ======
+        document.querySelectorAll('a[href^="#"]').forEach(a => {
+            a.addEventListener('click', (e) => { const t = document.querySelector(a.getAttribute('href')); if(t){e.preventDefault(); t.scrollIntoView({behavior:'smooth',block:'start'}); }});
+        });
+
+        // ====== PARALLAX (removed for 3D canvas background) ======
+        // The 3D hero background canvas handles its own scroll fade internally
+
+
+        // ============================================
+        //  THREE.JS — THEME-AWARE MATERIALS
+        // ============================================
+        const ORANGE = 0xFF9919;
+        const isLightTheme = () => document.documentElement.getAttribute('data-theme') === 'light';
+
+        // Dark/Light color palettes for 3D
+        const THEME_3D = {
+            dark: {
+                rubber: 0x1a1a1a, rubberSpec: 0x333333, rubberEmissive: 0x050505,
+                metal: 0x888888, metalEmissive: 0x111111,
+                clearColor: 0x0D0B09, fog: 0x0D0B09,
+                ground: 0x0D0B09, groundSpec: 0x222222,
+                grid: 0x1a1510, hole: 0x0a0a0a, holeSpec: 0x111111,
+                ambient: 0x404040, boltHole: 0x222222, boltSpec: 0x444444
+            },
+            light: {
+                rubber: 0xe8e4e0, rubberSpec: 0xffffff, rubberEmissive: 0x222222,
+                metal: 0xcccccc, metalEmissive: 0x333333,
+                clearColor: 0xF7F7F8, fog: 0xF7F7F8,
+                ground: 0xEFEFEF, groundSpec: 0xdddddd,
+                grid: 0xe4e4e4, hole: 0xe0e0e0, holeSpec: 0xffffff,
+                ambient: 0x808080, boltHole: 0xe0e0e0, boltSpec: 0xffffff,
+                // Per-model rubber colors for light mode
+                rubberColors: {
+                    oring:    { color: 0x1B2A4A, spec: 0x335588, emissive: 0x060B15 },
+                    washer:   { color: 0x4A80B5, spec: 0x88BBEE, emissive: 0x0A1520 },
+                    membrane: { color: 0x3A9E8F, spec: 0x77DDCC, emissive: 0x0A201A },
+                    bellows:  { color: 0xC44B4B, spec: 0xEE8888, emissive: 0x200A0A },
+                    gasket:   { color: 0x6B5B73, spec: 0xAA99BB, emissive: 0x151018 }
+                }
+            }
+        };
+
+        function getTheme3D() { return isLightTheme() ? THEME_3D.light : THEME_3D.dark; }
+
+        // Track all rubber/metal materials for live updating
+        const rubberMaterials = [];
+        const metalMaterials = [];
+        const holeMaterials = [];
+        const boltHoleMaterials = [];
+
+        function createRubberMaterial(modelName) {
+            const t = getTheme3D();
+            const lightColors = t.rubberColors && modelName ? t.rubberColors[modelName] : null;
+            const isLight = isLightTheme();
+            const mat = new THREE.MeshPhongMaterial({
+                color: (isLight && lightColors) ? lightColors.color : t.rubber,
+                specular: (isLight && lightColors) ? lightColors.spec : t.rubberSpec,
+                shininess: 30,
+                emissive: (isLight && lightColors) ? lightColors.emissive : t.rubberEmissive,
+            });
+            mat._modelName = modelName || null;
+            rubberMaterials.push(mat);
+            return mat;
+        }
+
+        function createMetalMaterial() {
+            const t = getTheme3D();
+            const mat = new THREE.MeshPhongMaterial({
+                color: t.metal, specular: 0xffffff,
+                shininess: 90, emissive: t.metalEmissive,
+            });
+            metalMaterials.push(mat);
+            return mat;
+        }
+
+        // ============================================
+        //  THREE.JS — PRODUCT GEOMETRIES
+        // ============================================
+        function createORing() {
+            const group = new THREE.Group();
+            const geo = new THREE.TorusGeometry(1.2, 0.35, 32, 48);
+            const mesh = new THREE.Mesh(geo, createRubberMaterial('oring'));
+            group.add(mesh);
+            // Subtle orange rim light simulation
+            const rim = new THREE.Mesh(
+                new THREE.TorusGeometry(1.2, 0.36, 32, 48),
+                new THREE.MeshPhongMaterial({ color: ORANGE, transparent: true, opacity: 0.06, side: THREE.BackSide })
+            );
+            group.add(rim);
+            return group;
+        }
+
+        function createWasher() {
+            const group = new THREE.Group();
+            // Outer cylinder
+            const outer = new THREE.Mesh(
+                new THREE.CylinderGeometry(1.4, 1.4, 0.2, 24),
+                createRubberMaterial('washer')
+            );
+            // Inner hole (CSG approximation — inner ring)
+            const holeMat = new THREE.MeshPhongMaterial({ color: getTheme3D().hole, specular: getTheme3D().holeSpec, shininess: 10 });
+            holeMaterials.push(holeMat);
+            const inner = new THREE.Mesh(
+                new THREE.CylinderGeometry(0.6, 0.6, 0.25, 24),
+                holeMat
+            );
+            // Create washer using ring geometry (lathe)
+            const pts = [];
+            pts.push(new THREE.Vector2(0.6, 0.1));
+            pts.push(new THREE.Vector2(1.4, 0.1));
+            pts.push(new THREE.Vector2(1.4, -0.1));
+            pts.push(new THREE.Vector2(0.6, -0.1));
+            pts.push(new THREE.Vector2(0.6, 0.1));
+            const lathe = new THREE.Mesh(
+                new THREE.LatheGeometry(pts, 24),
+                createRubberMaterial('washer')
+            );
+            group.add(lathe);
+            return group;
+        }
+
+        function createMembrane() {
+            const group = new THREE.Group();
+            // Dome-like disc
+            const pts = [];
+            for (let i = 0; i <= 20; i++) {
+                const t = i / 20;
+                const r = t * 1.5;
+                const y = Math.cos(t * Math.PI * 0.4) * 0.3 - 0.15;
+                pts.push(new THREE.Vector2(r, y));
+            }
+            const lathe = new THREE.Mesh(
+                new THREE.LatheGeometry(pts, 24),
+                createRubberMaterial('membrane')
+            );
+            group.add(lathe);
+            // Rim
+            const rim = new THREE.Mesh(
+                new THREE.TorusGeometry(1.5, 0.08, 16, 24),
+                createRubberMaterial('membrane')
+            );
+            rim.rotation.x = Math.PI / 2;
+            rim.position.y = -0.15;
+            group.add(rim);
+            return group;
+        }
+
+        function createBellows() {
+            const group = new THREE.Group();
+            const pts = [];
+            const segments = 8;
+            for (let i = 0; i <= segments * 4; i++) {
+                const t = i / (segments * 4);
+                const y = (t - 0.5) * 3;
+                const wave = Math.sin(t * segments * Math.PI) * 0.25;
+                const baseR = 0.7 + (1 - Math.abs(t - 0.5) * 2) * 0.15;
+                pts.push(new THREE.Vector2(baseR + wave, y));
+            }
+            const lathe = new THREE.Mesh(
+                new THREE.LatheGeometry(pts, 20),
+                createRubberMaterial('bellows')
+            );
+            group.add(lathe);
+            // Top and bottom flanges
+            [-1.5, 1.5].forEach(yPos => {
+                const flange = new THREE.Mesh(
+                    new THREE.TorusGeometry(0.75, 0.1, 16, 20),
+                    createRubberMaterial('bellows')
+                );
+                flange.rotation.x = Math.PI / 2;
+                flange.position.y = yPos;
+                group.add(flange);
+            });
+            return group;
+        }
+
+        function createGasket() {
+            const group = new THREE.Group();
+            // Flat ring with bolt holes
+            const pts = [];
+            pts.push(new THREE.Vector2(0.8, 0.06));
+            pts.push(new THREE.Vector2(1.6, 0.06));
+            pts.push(new THREE.Vector2(1.6, -0.06));
+            pts.push(new THREE.Vector2(0.8, -0.06));
+            pts.push(new THREE.Vector2(0.8, 0.06));
+            const ring = new THREE.Mesh(
+                new THREE.LatheGeometry(pts, 24),
+                createRubberMaterial('gasket')
+            );
+            group.add(ring);
+            // Bolt hole marks (small torus rings)
+            for (let i = 0; i < 6; i++) {
+                const angle = (i / 6) * Math.PI * 2;
+                const holeR = 1.2;
+                const bhMat = new THREE.MeshPhongMaterial({ color: getTheme3D().boltHole, specular: getTheme3D().boltSpec, shininess: 20 });
+                boltHoleMaterials.push(bhMat);
+                const hole = new THREE.Mesh(
+                    new THREE.TorusGeometry(0.1, 0.03, 8, 16),
+                    bhMat
+                );
+                hole.position.set(Math.cos(angle) * holeR, 0.07, Math.sin(angle) * holeR);
+                hole.rotation.x = Math.PI / 2;
+                group.add(hole);
+            }
+            return group;
+        }
+
+        // Cable Grommet (Passacavi) — cylinder with hole
+        // ============================================
+        //  THREE.JS — HERO SCENE
+        // ============================================
+        (function initHeroScene() {
+            const canvas = document.getElementById('heroCanvas');
+            if (!canvas || window.innerWidth < 1024) return;
+
+            const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: false });
+            renderer.setPixelRatio(1);
+
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 100);
+            camera.position.set(2.5, 0, 6);
+            camera.lookAt(2.5, 0, 0);
+
+            // Lights
+            const heroAmbient = new THREE.AmbientLight(isLightTheme() ? 0x808080 : 0x404040, isLightTheme() ? 1.0 : 0.6);
+            scene.add(heroAmbient);
+            window._heroAmbient = heroAmbient;
+            const key = new THREE.DirectionalLight(0xffffff, 0.8);
+            key.position.set(3, 4, 5);
+            scene.add(key);
+            const orangeLight = new THREE.PointLight(ORANGE, 0.8, 15);
+            orangeLight.position.set(-2, 2, 3);
+            scene.add(orangeLight);
+            const rimLight = new THREE.PointLight(0x4488ff, 0.3, 10);
+            rimLight.position.set(3, -1, -2);
+            scene.add(rimLight);
+
+            // Scene group — shifted right so hero text (left) isn't overlapped
+            const sceneGroup = new THREE.Group();
+            sceneGroup.position.x = 2.5;
+            scene.add(sceneGroup);
+
+            // Floating O-Ring — shifted right
+            const oring = createORing();
+            oring.position.x = 1.5;
+            oring.rotation.x = 0.4;
+            sceneGroup.add(oring);
+
+            // Smaller floating parts — spread around the O-ring
+            const mini1 = createWasher();
+            mini1.scale.setScalar(0.25);
+            mini1.position.set(-2, 1.5, -1);
+            sceneGroup.add(mini1);
+
+            const mini2 = createGasket();
+            mini2.scale.setScalar(0.2);
+            mini2.position.set(2.2, -1.2, -0.5);
+            sceneGroup.add(mini2);
+
+            const mini3 = createMembrane();
+            mini3.scale.setScalar(0.18);
+            mini3.position.set(-1.5, -1.8, 0);
+            sceneGroup.add(mini3);
+
+            // Particles — minimal
+            const particleCount = 30;
+            const particleGeo = new THREE.BufferGeometry();
+            const positions = new Float32Array(particleCount * 3);
+            for (let i = 0; i < particleCount; i++) {
+                positions[i*3] = (Math.random() - 0.5) * 10;
+                positions[i*3+1] = (Math.random() - 0.5) * 10;
+                positions[i*3+2] = (Math.random() - 0.5) * 6;
+            }
+            particleGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+            const particleMat = new THREE.PointsMaterial({ color: ORANGE, size: 0.03, transparent: true, opacity: 0.5 });
+            const particles = new THREE.Points(particleGeo, particleMat);
+            sceneGroup.add(particles);
+
+            let mouseX = 0, mouseY = 0;
+            window.addEventListener('mousemove', (e) => {
+                mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
+                mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
+            }, { passive: true });
+
+            function resize() {
+                const rect = canvas.parentElement.getBoundingClientRect();
+                const w = canvas.clientWidth, h = canvas.clientHeight;
+                renderer.setSize(w, h, false);
+                camera.aspect = w / h;
+                camera.updateProjectionMatrix();
+            }
+            resize();
+            window.addEventListener('resize', resize);
+
+            // Track hero visibility to pause render loop
+            let heroVisible = true;
+            const heroObs = new IntersectionObserver(entries => {
+                heroVisible = entries[0].isIntersecting;
+            }, { threshold: 0.01 });
+            heroObs.observe(canvas.parentElement);
+
+            // Use GSAP for hero canvas scroll fade (GPU-composited)
+            gsap.to(canvas, {
+                opacity: 0,
+                ease: 'none',
+                scrollTrigger: {
+                    trigger: '.hero',
+                    start: 'top top',
+                    end: '60% top',
+                    scrub: 0.3
+                }
+            });
+
+            function animate(t) {
+                requestAnimationFrame(animate);
+                if (!heroVisible) return; // skip render when not visible
+                const time = t * 0.001;
+
+                oring.rotation.y = time * 0.3 + mouseX * 0.3;
+                oring.rotation.x = 0.4 + Math.sin(time * 0.5) * 0.15 + mouseY * 0.15;
+                oring.position.y = Math.sin(time * 0.7) * 0.15;
+
+                mini1.rotation.y = time * 0.5;
+                mini1.rotation.z = time * 0.3;
+                mini1.position.y = 1.5 + Math.sin(time * 0.9) * 0.2;
+
+                mini2.rotation.y = -time * 0.4;
+                mini2.position.y = -1.2 + Math.sin(time * 0.6 + 1) * 0.2;
+
+                mini3.rotation.y = time * 0.35;
+                mini3.position.y = -1.8 + Math.sin(time * 0.8 + 2) * 0.15;
+
+                particles.rotation.y = time * 0.02;
+
+                orangeLight.position.x = Math.sin(time * 0.5) * 3;
+                orangeLight.position.y = Math.cos(time * 0.3) * 2;
+
+                renderer.render(scene, camera);
+            }
+            requestAnimationFrame(animate);
+        })();
+
+        // ============================================
+        //  PARALLAX — handled by GSAP ScrollTrigger
+        // ============================================
+
+        // ============================================
+        //  THREE.JS — 3D PRODUCT SHOWCASE
+        // ============================================
+        // Store references for theme updates
+        let showcaseRenderer, showcaseScene, showcaseGround, showcaseGrid, showcaseAmbient;
+
+        (function initShowcase() {
+            const canvas = document.getElementById('showcaseCanvas');
+            if (!canvas) return;
+
+            const t = getTheme3D();
+            const renderer = new THREE.WebGLRenderer({ canvas, antialias: false, alpha: false });
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
+            renderer.setClearColor(t.clearColor, 1);
+            showcaseRenderer = renderer;
+
+            const scene = new THREE.Scene();
+            scene.fog = new THREE.FogExp2(t.fog, 0.15);
+            showcaseScene = scene;
+
+            const camera = new THREE.PerspectiveCamera(45, 16/9, 0.1, 100);
+            camera.position.set(0, 0.8, 5);
+            camera.lookAt(0, 0, 0);
+
+            // Lighting
+            showcaseAmbient = new THREE.AmbientLight(isLightTheme() ? 0x606060 : 0x303030, isLightTheme() ? 0.8 : 0.5);
+            scene.add(showcaseAmbient);
+
+            const key = new THREE.DirectionalLight(0xffffff, 0.9);
+            key.position.set(4, 5, 4);
+            scene.add(key);
+
+            const fill = new THREE.DirectionalLight(0x8899bb, 0.3);
+            fill.position.set(-3, 2, -2);
+            scene.add(fill);
+
+            const orangeSpot = new THREE.PointLight(ORANGE, 0.7, 12);
+            orangeSpot.position.set(2, 2, 3);
+            scene.add(orangeSpot);
+
+            const blueRim = new THREE.PointLight(0x3366aa, 0.4, 10);
+            blueRim.position.set(-3, -1, 2);
+            scene.add(blueRim);
+
+            // Ground plane (subtle reflection)
+            const ground = new THREE.Mesh(
+                new THREE.PlaneGeometry(20, 20),
+                new THREE.MeshPhongMaterial({
+                    color: t.ground,
+                    specular: t.groundSpec,
+                    shininess: 40,
+                })
+            );
+            ground.rotation.x = -Math.PI / 2;
+            ground.position.y = -1.8;
+            scene.add(ground);
+            showcaseGround = ground;
+
+            // Grid lines on ground
+            const gridHelper = new THREE.GridHelper(12, 24, t.grid, t.grid);
+            gridHelper.position.y = -1.79;
+            scene.add(gridHelper);
+            showcaseGrid = gridHelper;
+
+            // Showcase particles — reduced
+            const spCount = 60;
+            const spGeo = new THREE.BufferGeometry();
+            const spPos = new Float32Array(spCount * 3);
+            const spVel = new Float32Array(spCount * 3);
+            for (let i = 0; i < spCount; i++) {
+                spPos[i*3] = (Math.random() - 0.5) * 8;
+                spPos[i*3+1] = Math.random() * 5 - 1;
+                spPos[i*3+2] = (Math.random() - 0.5) * 8;
+                spVel[i*3] = (Math.random() - 0.5) * 0.002;
+                spVel[i*3+1] = Math.random() * 0.003 + 0.001;
+                spVel[i*3+2] = (Math.random() - 0.5) * 0.002;
+            }
+            spGeo.setAttribute('position', new THREE.BufferAttribute(spPos, 3));
+            const spMat = new THREE.PointsMaterial({
+                color: ORANGE,
+                size: 0.025,
+                transparent: true,
+                opacity: 0.4,
+            });
+            const showcaseParticles = new THREE.Points(spGeo, spMat);
+            scene.add(showcaseParticles);
+
+            // Models
+            const models = {
+                oring: { create: createORing, title: 'O-Ring', desc: 'Anelli di tenuta in materiali elastomerici per applicazioni industriali ad alta pressione e temperatura.' },
+                washer: { create: createWasher, title: 'Rondella', desc: 'Rondelle di tenuta piatte in gomma per giunzioni meccaniche, disponibili in tutte le dimensioni.' },
+                membrane: { create: createMembrane, title: 'Membrana', desc: 'Membrane flessibili per valvole, pompe e regolatori di pressione industriali.' },
+                bellows: { create: createBellows, title: 'Soffietto', desc: 'Soffietti protettivi in gomma per alberi, steli e componenti meccanici in movimento.' },
+                gasket: { create: createGasket, title: 'Guarnizione', desc: 'Guarnizioni piane con fori per bulloni, per flange e giunzioni di tubazioni industriali.' },
+            };
+
+            let currentModel = null;
+            let targetRotY = 0;
+            let currentRotY = 0;
+            let autoRotate = true;
+
+            function switchModel(name) {
+                if (currentModel) {
+                    scene.remove(currentModel);
+                    currentModel.traverse(child => {
+                        if (child.geometry) child.geometry.dispose();
+                        if (child.material) child.material.dispose();
+                    });
+                }
+                const m = models[name];
+                currentModel = m.create();
+                currentModel.scale.setScalar(0.01); // Start tiny for entrance animation
+                scene.add(currentModel);
+
+                document.getElementById('showcaseTitle').textContent = m.title;
+                document.getElementById('showcaseDesc').textContent = m.desc;
+
+                document.querySelectorAll('.showcase-tab').forEach(tab => {
+                    tab.classList.toggle('active', tab.dataset.model === name);
+                });
+            }
+
+            // Tab clicks
+            document.querySelectorAll('.showcase-tab').forEach(tab => {
+                tab.addEventListener('click', () => switchModel(tab.dataset.model));
+            });
+
+            switchModel('oring');
+
+            // Mouse drag rotation
+            let isDragging = false, prevMX = 0;
+            canvas.addEventListener('mousedown', (e) => { isDragging = true; prevMX = e.clientX; autoRotate = false; });
+            window.addEventListener('mouseup', () => { isDragging = false; setTimeout(() => autoRotate = true, 3000); });
+            canvas.addEventListener('mousemove', (e) => {
+                if (!isDragging) return;
+                const dx = e.clientX - prevMX;
+                targetRotY += dx * 0.01;
+                prevMX = e.clientX;
+            });
+
+            // Touch support
+            canvas.addEventListener('touchstart', (e) => { isDragging = true; prevMX = e.touches[0].clientX; autoRotate = false; }, { passive: true });
+            window.addEventListener('touchend', () => { isDragging = false; setTimeout(() => autoRotate = true, 3000); });
+            canvas.addEventListener('touchmove', (e) => {
+                if (!isDragging) return;
+                const dx = e.touches[0].clientX - prevMX;
+                targetRotY += dx * 0.01;
+                prevMX = e.touches[0].clientX;
+            }, { passive: true });
+
+            function resize() {
+                const w = canvas.clientWidth, h = canvas.clientHeight;
+                if (canvas.width !== w || canvas.height !== h) {
+                    renderer.setSize(w, h, false);
+                    camera.aspect = w / h;
+                    camera.updateProjectionMatrix();
+                }
+            }
+
+            // Entrance spring animation
+            let entranceT = 0;
+
+            function animate(t) {
+                requestAnimationFrame(animate);
+                const time = t * 0.001;
+                resize();
+
+                if (currentModel) {
+                    // Entrance scale animation (spring curve)
+                    entranceT += 0.03;
+                    const spring = 1 - Math.exp(-entranceT * 3) * Math.cos(entranceT * 4);
+                    const scale = Math.min(spring, 1);
+                    currentModel.scale.setScalar(scale);
+
+                    // Rotation
+                    if (autoRotate) targetRotY = time * 0.4;
+                    currentRotY += (targetRotY - currentRotY) * 0.08;
+                    currentModel.rotation.y = currentRotY;
+                    currentModel.rotation.x = Math.sin(time * 0.3) * 0.1;
+
+                    // Gentle float
+                    currentModel.position.y = Math.sin(time * 0.6) * 0.1;
+                }
+
+                // Animate particles
+                const posArr = showcaseParticles.geometry.attributes.position.array;
+                for (let i = 0; i < spCount; i++) {
+                    posArr[i*3] += spVel[i*3];
+                    posArr[i*3+1] += spVel[i*3+1];
+                    posArr[i*3+2] += spVel[i*3+2];
+                    if (posArr[i*3+1] > 4) {
+                        posArr[i*3] = (Math.random() - 0.5) * 8;
+                        posArr[i*3+1] = -1;
+                        posArr[i*3+2] = (Math.random() - 0.5) * 8;
+                    }
+                }
+                showcaseParticles.geometry.attributes.position.needsUpdate = true;
+
+                // Orbit the orange light
+                orangeSpot.position.x = Math.sin(time * 0.5) * 3;
+                orangeSpot.position.z = Math.cos(time * 0.5) * 3;
+
+                renderer.render(scene, camera);
+            }
+
+            // Only animate when in view
+            let showcaseVisible = false;
+            const showcaseSection = document.querySelector('.showcase-3d');
+            const vObs = new IntersectionObserver((entries) => {
+                showcaseVisible = entries[0].isIntersecting;
+            }, { threshold: 0.05 });
+            vObs.observe(showcaseSection);
+
+            function conditionalAnimate(t) {
+                if (showcaseVisible) animate(t);
+                else requestAnimationFrame(conditionalAnimate);
+            }
+
+            // Reset entrance when switching models
+            const origSwitch = switchModel;
+            switchModel = function(name) {
+                entranceT = 0;
+                origSwitch(name);
+            };
+            switchModel('oring');
+
+            // Start loop
+            requestAnimationFrame(function loop(t) {
+                requestAnimationFrame(loop);
+                if (showcaseVisible) {
+                    resize();
+                    const time = t * 0.001;
+
+                    if (currentModel) {
+                        entranceT += 0.03;
+                        const spring = 1 - Math.exp(-entranceT * 3) * Math.cos(entranceT * 4);
+                        currentModel.scale.setScalar(Math.min(Math.max(spring, 0), 1.05));
+
+                        if (autoRotate) targetRotY = time * 0.4;
+                        currentRotY += (targetRotY - currentRotY) * 0.08;
+                        currentModel.rotation.y = currentRotY;
+                        currentModel.rotation.x = Math.sin(time * 0.3) * 0.1;
+                        currentModel.position.y = Math.sin(time * 0.6) * 0.1;
+                    }
+
+                    const posArr = showcaseParticles.geometry.attributes.position.array;
+                    for (let i = 0; i < spCount; i++) {
+                        posArr[i*3] += spVel[i*3];
+                        posArr[i*3+1] += spVel[i*3+1];
+                        posArr[i*3+2] += spVel[i*3+2];
+                        if (posArr[i*3+1] > 4) { posArr[i*3]=(Math.random()-0.5)*8; posArr[i*3+1]=-1; posArr[i*3+2]=(Math.random()-0.5)*8; }
+                    }
+                    showcaseParticles.geometry.attributes.position.needsUpdate = true;
+
+                    orangeSpot.position.x = Math.sin(time * 0.5) * 3;
+                    orangeSpot.position.z = Math.cos(time * 0.5) * 3;
+
+                    renderer.render(scene, camera);
+                }
+            });
+        })();
+
+
+        // ============================================
+        //  THREE.JS — FLOATING PARTICLES BACKGROUND
+        // ============================================
+        (function initParticlesBg() {
+            const canvas = document.getElementById('particlesCanvas');
+            if (!canvas) return;
+
+            const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: false });
+            renderer.setPixelRatio(1); // Low DPR for performance
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(60, window.innerWidth/window.innerHeight, 0.1, 100);
+            camera.position.z = 5;
+
+            const count = 40;
+            const geo = new THREE.BufferGeometry();
+            const pos = new Float32Array(count * 3);
+            const vel = new Float32Array(count * 3);
+            for (let i = 0; i < count; i++) {
+                pos[i*3] = (Math.random() - 0.5) * 15;
+                pos[i*3+1] = (Math.random() - 0.5) * 15;
+                pos[i*3+2] = (Math.random() - 0.5) * 8;
+                vel[i*3+1] = (Math.random() - 0.5) * 0.003;
+            }
+            geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+            const mat = new THREE.PointsMaterial({ color: ORANGE, size: 0.02, transparent: true, opacity: 0.35 });
+            const pts = new THREE.Points(geo, mat);
+            scene.add(pts);
+
+            function resize() {
+                renderer.setSize(window.innerWidth, window.innerHeight, false);
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+            }
+            resize();
+            window.addEventListener('resize', resize);
+
+            // GSAP handles particles opacity (GPU-composited, no per-frame DOM write)
+            gsap.fromTo(canvas,
+                { opacity: 0.4 },
+                {
+                    opacity: 0.15,
+                    ease: 'none',
+                    scrollTrigger: {
+                        trigger: 'body',
+                        start: 'top top',
+                        end: 'bottom bottom',
+                        scrub: 1
+                    }
+                }
+            );
+
+            // Throttled animation — only 30fps for background particles
+            let lastFrame = 0;
+            function loop(t) {
+                requestAnimationFrame(loop);
+                if (t - lastFrame < 33) return; // ~30fps
+                lastFrame = t;
+
+                const arr = geo.attributes.position.array;
+                for (let i = 0; i < count; i++) {
+                    arr[i*3+1] += vel[i*3+1];
+                    if (arr[i*3+1] > 7.5) arr[i*3+1] = -7.5;
+                    if (arr[i*3+1] < -7.5) arr[i*3+1] = 7.5;
+                }
+                geo.attributes.position.needsUpdate = true;
+
+                pts.rotation.y = t * 0.00003;
+
+                renderer.render(scene, camera);
+            }
+            requestAnimationFrame(loop);
+        })();
+
+        // ============================================
+        //  3D STATIC RENDERS — Single shared renderer
+        //  Renders each model once, captures as image,
+        //  then disposes renderer (0 extra WebGL contexts)
+        // ============================================
+
+        // ============================================
+        //  INTERACTIVE BEHAVIORS
+        // ============================================
+
+        // ====== MODAL SYSTEM ======
+        const modalOverlay = document.getElementById('modalOverlay');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalDesc = document.getElementById('modalDesc');
+        const modalTag = document.getElementById('modalTag');
+        const modalSpecs = document.getElementById('modalSpecs');
+        const modalCta = document.getElementById('modalCta');
+
+        function openModal(data) {
+            modalTag.textContent = data.tag || 'Prodotto';
+            modalTitle.textContent = data.title;
+            modalDesc.textContent = data.description;
+
+            modalSpecs.innerHTML = '';
+            if (data.specs) {
+                data.specs.forEach(s => {
+                    modalSpecs.innerHTML += `<div class="modal-spec"><div class="modal-spec-label">${s.label}</div><div class="modal-spec-value">${s.value}</div></div>`;
+                });
+            }
+
+            modalOverlay.classList.add('active');
+            modalOverlay.setAttribute('aria-hidden', 'false');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            modalOverlay.classList.remove('active');
+            modalOverlay.setAttribute('aria-hidden', 'true');
+            document.body.style.overflow = '';
+        }
+
+        modalOverlay.querySelector('.modal-close').addEventListener('click', closeModal);
+        modalOverlay.addEventListener('click', (e) => { if (e.target === modalOverlay) closeModal(); });
+        modalCta.addEventListener('click', () => {
+            closeModal();
+            document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
+        });
+
+        // ====== PRODUCT DATA ======
+        const productData = [
+            {
+                tag: 'Su misura',
+                title: 'Articoli a disegno e a campione',
+                description: 'Realizziamo articoli tecnici in gomma su specifiche del cliente, da disegno tecnico o da campione. Il nostro ufficio tecnico collabora con costruttori qualificati di stampi per proporre soluzioni ottimali. Produciamo per stampaggio a compressione, iniezione e transfer.',
+                specs: [
+                    { label: 'Processo', value: 'Compressione / Iniezione / Transfer' },
+                    { label: 'Tolleranze', value: 'ISO 3302 Classe M2' },
+                    { label: 'Materiali', value: 'Tutti gli elastomeri' },
+                    { label: 'Quantità min.', value: 'Da 100 pezzi' }
+                ]
+            },
+            {
+                tag: 'O-Rings',
+                title: 'Anelli di tenuta',
+                description: 'O-Rings standard e speciali, disponibili in un vasto range di dimensioni e mescole personalizzate. Conformi a norme internazionali AS568, ISO 3601, DIN 3771. Disponibili anche in versione FDA e per gas.',
+                specs: [
+                    { label: 'Norme', value: 'AS568 / ISO 3601 / DIN 3771' },
+                    { label: 'Diametri', value: 'Da 1mm a 1500mm' },
+                    { label: 'Mescole', value: 'NBR, FKM, EPDM, VMQ, FFKM' },
+                    { label: 'Certificazioni', value: 'FDA, WRAS, KTW, ACS' }
+                ]
+            },
+            {
+                tag: 'Membrane',
+                title: 'Membrane',
+                description: 'Membrane tecniche per valvole, pompe, regolatori di pressione e applicazioni industriali ad alte prestazioni. Disponibili con inserti in tessuto o metallo per maggiore resistenza. Design personalizzato per ogni applicazione.',
+                specs: [
+                    { label: 'Tipologia', value: 'Piane, convesse, con inserto' },
+                    { label: 'Resistenza', value: 'Fino a 20 bar' },
+                    { label: 'Temperatura', value: '-40°C a +200°C' },
+                    { label: 'Rinforzo', value: 'Tessuto / Metallo' }
+                ]
+            },
+            {
+                tag: 'Rondelle',
+                title: 'Rondelle',
+                description: 'Rondelle di tenuta in diversi materiali elastomerici e dimensioni. Prodotte per stampaggio o fustellatura. Utilizzate in raccordi, flange e connessioni idrauliche e pneumatiche.',
+                specs: [
+                    { label: 'Processo', value: 'Stampaggio / Fustellatura' },
+                    { label: 'Forme', value: 'Piane, coniche, sagomate' },
+                    { label: 'Durezza', value: 'Da 30 a 90 Shore A' },
+                    { label: 'Spessori', value: 'Da 0.5mm a 10mm' }
+                ]
+            },
+            {
+                tag: 'Soffietti',
+                title: 'Soffietti',
+                description: 'Soffietti flessibili per protezione di componenti meccanici ed idraulici. Proteggono alberi, steli e giunti da polvere, acqua e agenti chimici. Disponibili in versione standard e su disegno.',
+                specs: [
+                    { label: 'Tipologia', value: 'Conici, cilindrici, sagomati' },
+                    { label: 'Corsa', value: 'Fino a 300mm' },
+                    { label: 'Temperatura', value: '-30°C a +150°C' },
+                    { label: 'Fissaggio', value: 'Fascette / Flangiato' }
+                ]
+            },
+            {
+                tag: 'Costampati',
+                title: 'Costampati gomma-metallo',
+                description: 'Componenti compositi gomma-metallo per la massima resistenza meccanica. Il processo di costampaggio garantisce un\'adesione perfetta tra elastomero e supporto metallico. Antivibranti, supporti, silent-block.',
+                specs: [
+                    { label: 'Adesione', value: 'Primer chimico / Vulcanizzazione' },
+                    { label: 'Metalli', value: 'Acciaio, alluminio, ottone, inox' },
+                    { label: 'Applicazioni', value: 'Antivibranti, supporti' },
+                    { label: 'Test', value: 'Pull-out, fatica, invecchiamento' }
+                ]
+            },
+            {
+                tag: 'Guarnizioni filtri',
+                title: 'Guarnizioni per filtri',
+                description: 'Guarnizioni di tenuta per sistemi di filtrazione industriale, alimentare e idraulica. Design specifico per cartucce filtranti, piastre e contenitori. Conformi a normative alimentari e di potabilità.',
+                specs: [
+                    { label: 'Settori', value: 'Alimentare, idraulico, chimico' },
+                    { label: 'Conformità', value: 'FDA, EC 1935/2004' },
+                    { label: 'Geometrie', value: 'Anulari, sagomate, a labbro' },
+                    { label: 'Materiali', value: 'EPDM, VMQ, FKM, NBR' }
+                ]
+            },
+            {
+                tag: 'Passacavi',
+                title: 'Passacavi',
+                description: 'Passacavi e passafili per il settore elettrico ed elettronico. Proteggono i cavi da abrasione e agenti esterni garantendo una tenuta IP. Disponibili in varie forme e gradi di protezione.',
+                specs: [
+                    { label: 'Protezione', value: 'IP65, IP67, IP68' },
+                    { label: 'Materiali', value: 'VMQ, EPDM, NBR' },
+                    { label: 'Fori', value: 'Singoli e multipli' },
+                    { label: 'Montaggio', value: 'A pressione / Avvitato' }
+                ]
+            }
+        ];
+
+        // ====== PRODUCT CARD CLICKS ======
+        document.querySelectorAll('.product-card').forEach((card, i) => {
+            card.style.cursor = 'pointer';
+            card.addEventListener('click', () => {
+                if (productData[i]) openModal(productData[i]);
+            });
+        });
+
+        // ====== GALLERY LIGHTBOX (Canvas-based) ======
+        const lightboxOverlay = document.getElementById('lightboxOverlay');
+        const lightboxImg = document.getElementById('lightboxImg');
+        const lightboxCounter = document.getElementById('lightboxCounter');
+        const galleryItems = document.querySelectorAll('.gallery-item img');
+        let currentLightboxIndex = 0;
+
+        function openLightbox(index) {
+            currentLightboxIndex = index;
+            const img = galleryItems[index];
+            lightboxImg.src = img.src;
+            lightboxImg.alt = img.alt || 'Galleria Ponti';
+            lightboxCounter.textContent = `${index + 1} / ${galleryItems.length}`;
+            lightboxOverlay.classList.add('active');
+            lightboxOverlay.setAttribute('aria-hidden', 'false');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLightbox() {
+            lightboxOverlay.classList.remove('active');
+            lightboxOverlay.setAttribute('aria-hidden', 'true');
+            document.body.style.overflow = '';
+        }
+
+        function lightboxNav(dir) {
+            currentLightboxIndex = (currentLightboxIndex + dir + galleryItems.length) % galleryItems.length;
+            lightboxImg.style.transition = 'none';
+            lightboxImg.style.opacity = '0.5';
+            lightboxImg.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                const img = galleryItems[currentLightboxIndex];
+                lightboxImg.src = img.src;
+                lightboxImg.alt = img.alt || 'Galleria Ponti';
+                lightboxCounter.textContent = `${currentLightboxIndex + 1} / ${galleryItems.length}`;
+                lightboxImg.style.transition = 'opacity var(--t-base) var(--ease-out), transform var(--t-base) var(--ease-out)';
+                lightboxImg.style.opacity = '1';
+                lightboxImg.style.transform = 'scale(1)';
+            }, 120);
+        }
+
+        galleryItems.forEach((img, i) => {
+            img.parentElement.addEventListener('click', () => openLightbox(i));
+        });
+
+        document.querySelector('.lightbox-close').addEventListener('click', closeLightbox);
+        document.querySelector('.lightbox-prev').addEventListener('click', (e) => { e.stopPropagation(); lightboxNav(-1); });
+        document.querySelector('.lightbox-next').addEventListener('click', (e) => { e.stopPropagation(); lightboxNav(1); });
+        lightboxOverlay.addEventListener('click', (e) => { if (e.target === lightboxOverlay) closeLightbox(); });
+
+        // ====== KEYBOARD NAVIGATION ======
+        document.addEventListener('keydown', (e) => {
+            // ESC closes modal/lightbox
+            if (e.key === 'Escape') {
+                if (lightboxOverlay.classList.contains('active')) closeLightbox();
+                else if (modalOverlay.classList.contains('active')) closeModal();
+            }
+            // Arrow keys for lightbox
+            if (lightboxOverlay.classList.contains('active')) {
+                if (e.key === 'ArrowLeft') lightboxNav(-1);
+                if (e.key === 'ArrowRight') lightboxNav(1);
+            }
+        });
+
+        // ====== LANGUAGE SWITCHER ======
+        const toast = document.getElementById('toast');
+        const toastText = document.getElementById('toastText');
+        let toastTimeout;
+
+        function showToast(text) {
+            toastText.textContent = text;
+            toast.classList.add('show');
+            clearTimeout(toastTimeout);
+            toastTimeout = setTimeout(() => toast.classList.remove('show'), 2500);
+        }
+
+        const langNames = { IT: 'Italiano', EN: 'English', FR: 'Français', DE: 'Deutsch' };
+        document.querySelectorAll('.nav-lang a').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const lang = link.textContent.trim();
+                document.querySelectorAll('.nav-lang a').forEach(l => l.classList.remove('active-lang'));
+                link.classList.add('active-lang');
+                showToast(`Lingua: ${langNames[lang] || lang}`);
+            });
+        });
+
+        // ====== SECTOR CARD INTERACTIONS ======
+        const sectorDetails = {
+            'Alimentare': 'Guarnizioni conformi FDA e EC 1935/2004 per impianti di lavorazione e confezionamento alimentare.',
+            'Filtrazione': 'Tenute per sistemi di filtrazione industriale, acqua potabile e processi chimici.',
+            'Elettronica': 'Passacavi, gommini e guarnizioni IP per apparecchiature elettroniche.',
+            'Elettrovalvole': 'Membrane e tenute per elettrovalvole a comando diretto e pilotato.',
+            'Oleodinamico': 'O-ring e guarnizioni per cilindri, valvole e pompe oleodinamiche ad alta pressione.',
+            'Pneumatico': 'Tenute per cilindri pneumatici, valvole e raccordi in pressione.',
+            'Idraulico': 'Guarnizioni per impianti idraulici civili e industriali, conformi potabilità.',
+            'Elettrodomestico': 'Componenti in gomma per lavatrici, lavastoviglie e piccoli elettrodomestici.',
+            'Ottico': 'Guarnizioni di precisione per strumenti ottici e sistemi di lenti.',
+            'Illuminazione': 'Tenute IP per apparecchi illuminanti da interno ed esterno.',
+            'Meccanizzazione agricola': 'Soffietti e tenute per macchine agricole e attrezzature da campo.',
+            'Enologia': 'Guarnizioni per impianti enologici, conformi al contatto con alimenti.'
+        };
+
+        document.querySelectorAll('.sector-card').forEach(card => {
+            const title = card.querySelector('.sector-card-title').textContent.trim();
+            // Add detail element
+            const detail = document.createElement('div');
+            detail.className = 'sector-detail';
+            detail.textContent = sectorDetails[title] || 'Soluzioni di tenuta specifiche per questo settore industriale.';
+            card.appendChild(detail);
+
+            card.addEventListener('click', () => {
+                const wasActive = card.classList.contains('active');
+                document.querySelectorAll('.sector-card').forEach(c => c.classList.remove('active'));
+                if (!wasActive) card.classList.add('active');
+            });
+        });
+
+        // ====== MATERIAL EXPAND ======
+        const materialDetails = {
+            'NR': 'Ottima elasticità e resistenza alla lacerazione. Ideale per applicazioni dinamiche. Temp: -50°C / +80°C.',
+            'NBR': 'Eccellente resistenza a oli minerali e carburanti. La più utilizzata in oleodinamica. Temp: -30°C / +120°C.',
+            'VMQ': 'Resistenza termica eccezionale e biocompatibilità. Ideale per alimentare e medicale. Temp: -60°C / +200°C.',
+            'FKM/FPM': 'Massima resistenza chimica e termica. Per applicazioni critiche. Temp: -20°C / +200°C.',
+            'EPDM': 'Ottima resistenza a vapore, ozono e agenti atmosferici. Per acqua e vapore. Temp: -45°C / +150°C.',
+            'CR': 'Buona resistenza a intemperie, ozono e moderata resistenza agli oli. Temp: -35°C / +120°C.',
+            'AU/EU': 'Elevatissima resistenza all\'abrasione e al carico. Per guarnizioni dinamiche. Temp: -30°C / +80°C.',
+            'IIR': 'Impermeabilità ai gas eccellente. Utilizzata per camere d\'aria e valvole. Temp: -40°C / +120°C.',
+            'SBR': 'Buon compromesso costo/prestazioni. Resistenza all\'abrasione. Temp: -40°C / +100°C.',
+            'ACM': 'Resistenza agli oli ad alta temperatura. Per applicazioni automotive. Temp: -20°C / +170°C.',
+            'XNBR': 'Come NBR ma con resistenza all\'abrasione superiore. Per tenute dinamiche. Temp: -25°C / +120°C.',
+            'EPM': 'Simile a EPDM, buona resistenza chimica. Per fluidi polari. Temp: -45°C / +150°C.',
+            'FFKM': 'Resistenza chimica universale. Per ambienti estremi nel chimico/farmaceutico. Temp: -15°C / +320°C.',
+            'FVMQ': 'Combina resistenza chimica e termica del silicone. Per carburanti e oli. Temp: -60°C / +175°C.',
+            'CO': 'Buona resistenza a carburanti e oli a bassa temperatura. Per automotive. Temp: -40°C / +135°C.',
+            'PTFE': 'Resistenza chimica totale, bassissimo attrito. Per guarnizioni statiche. Temp: -200°C / +260°C.'
+        };
+
+        document.querySelectorAll('.material-item').forEach(item => {
+            const abbr = item.querySelector('.material-abbr').textContent.trim();
+            const detail = document.createElement('div');
+            detail.className = 'material-detail';
+            detail.textContent = materialDetails[abbr] || 'Elastomero per applicazioni industriali specifiche.';
+            item.appendChild(detail);
+
+            item.addEventListener('click', () => {
+                const wasExpanded = item.classList.contains('expanded');
+                document.querySelectorAll('.material-item.expanded').forEach(i => i.classList.remove('expanded'));
+                if (!wasExpanded) item.classList.add('expanded');
+            });
+        });
+
+        // ====== CONTACT FORM VALIDATION ======
+        const contactForm = document.querySelector('.contact-form');
+        if (contactForm) {
+            const inputs = contactForm.querySelectorAll('.form-input[required]');
+
+            // Add error message elements
+            inputs.forEach(input => {
+                const errMsg = document.createElement('div');
+                errMsg.className = 'form-error-msg';
+                input.parentElement.appendChild(errMsg);
+            });
+
+            function validateField(input) {
+                const errMsg = input.parentElement.querySelector('.form-error-msg');
+                let valid = true;
+                let msg = '';
+
+                if (!input.value.trim()) {
+                    valid = false;
+                    msg = 'Campo obbligatorio';
+                } else if (input.type === 'email' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input.value)) {
+                    valid = false;
+                    msg = 'Inserisci un\'email valida';
+                }
+
+                input.classList.toggle('error', !valid);
+                input.classList.toggle('success', valid && input.value.trim());
+                if (errMsg) {
+                    errMsg.textContent = msg;
+                    errMsg.classList.toggle('visible', !valid);
+                }
+                return valid;
+            }
+
+            inputs.forEach(input => {
+                input.addEventListener('blur', () => validateField(input));
+                input.addEventListener('input', () => {
+                    if (input.classList.contains('error')) validateField(input);
+                });
+            });
+
+            contactForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                let allValid = true;
+                inputs.forEach(input => {
+                    if (!validateField(input)) allValid = false;
+                });
+
+                if (allValid) {
+                    // Show success state
+                    contactForm.style.transition = 'opacity var(--t-base) var(--ease-out)';
+                    contactForm.style.opacity = '0';
+                    setTimeout(() => {
+                        contactForm.innerHTML = `
+                            <div class="form-success">
+                                <div class="form-success-icon">&#10003;</div>
+                                <h3>Richiesta inviata!</h3>
+                                <p>Grazie per averci contattato. Ti risponderemo entro 24 ore lavorative.</p>
+                            </div>
+                        `;
+                        contactForm.style.opacity = '1';
+                    }, 250);
+                    showToast('Richiesta inviata con successo');
+                }
+            });
+        }
+
+        // ====== CERTIFICATION CLICKS ======
+        const certData = {
+            'IQNet': {
+                tag: 'Certificazione Internazionale',
+                title: 'IQNet — International Certification Network',
+                description: 'IQNet è la più grande rete internazionale di enti di certificazione. La certificazione IQNet riconosciuta in oltre 170 paesi garantisce che il nostro sistema di gestione qualità soddisfa i più alti standard internazionali. Ponti Guarnizioni è certificata IQNet per la progettazione e produzione di articoli tecnici in gomma.',
+                specs: [
+                    { label: 'Rete', value: '37 enti di certificazione' },
+                    { label: 'Paesi', value: 'Oltre 170' },
+                    { label: 'Standard', value: 'ISO 9001:2015' },
+                    { label: 'Validità', value: 'Certificato attivo' }
+                ]
+            },
+            'IIP': {
+                tag: 'Certificazione Qualità',
+                title: 'IIP — Istituto Italiano dei Plastici',
+                description: 'L\'Istituto Italiano dei Plastici è un ente di certificazione accreditato ACCREDIA per la certificazione di sistemi di gestione qualità. La certificazione IIP attesta la conformità del nostro sistema produttivo alle norme ISO 9001:2015 per la produzione di articoli tecnici in gomma.',
+                specs: [
+                    { label: 'Ente', value: 'IIP S.r.l.' },
+                    { label: 'Accreditamento', value: 'ACCREDIA' },
+                    { label: 'Norma', value: 'ISO 9001:2015' },
+                    { label: 'Scopo', value: 'Articoli tecnici in gomma' }
+                ]
+            }
+        };
+
+        document.querySelectorAll('.cert-row img').forEach(img => {
+            img.addEventListener('click', () => {
+                const alt = img.alt || '';
+                if (alt.includes('IQNet')) openModal(certData['IQNet']);
+                else if (alt.includes('IIP')) openModal(certData['IIP']);
+            });
+        });
+
+    })();
+    </script>
+</body>
+</html>
